@@ -1,0 +1,16 @@
+async_fifo.v
+axil_master.v
+can_arbiter.v
+can_cfg_fsm.v
+can_tx_fsm.v
+can_rx_fsm.v
+can_ctrl_ch.v
+can_tx_fifo_fsm.v
+can_rx_fifo_fsm.v
+can_channel.v
+can_tx_router.v
+can_rx_mux.v
+ftdi_chb_rx_fsm.v
+ftdi_cha_tx_fsm.v
+can_fd_usb_top.v
+tb_can_fd_usb.v

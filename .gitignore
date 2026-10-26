@@ -1,0 +1,17 @@
+# Vivado generated / regenerable output (open axi4_block.xpr, then Generate Output Products on the block design)
+axi4_block.gen/
+axi4_block.cache/
+axi4_block.sim/
+axi4_block.runs/
+axi4_block.ip_user_files/
+axi4_block.hw/
+.Xil/
+
+# Vivado logs, journals, pid files, waveform data/layouts
+*.jou
+*.log
+*.str
+*.backup.*
+dfx_runtime.txt
+*.wdb
+*.wcfg

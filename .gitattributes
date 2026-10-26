@@ -1,0 +1,5 @@
+# store text files with LF line endings in the repository (the working tree is left alone)
+* text=auto
+*.bd text eol=lf
+*.xpr text eol=lf
+*.xci text eol=lf
