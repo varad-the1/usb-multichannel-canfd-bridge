@@ -21,7 +21,8 @@ module can_channel #(
     parameter integer TX_BUF   = 0,
     parameter integer FIFO_AW  = 12,             // 2**12 = 4096 words
     parameter         AUTO_CFG = 0,              // 1 = run one config cycle after reset
-    parameter integer RX_EN    = 1               // 0 = TX only: the RX FSM never polls or pops
+    parameter integer RX_EN    = 1,              // 0 = TX only: the RX FSM never polls or pops
+    parameter [7:0]   CH_ID    = 8'd0            // channel number, stored in front of every received frame
 )(
     input  wire         aclk,
     input  wire         aresetn,
@@ -141,7 +142,7 @@ module can_channel #(
     wire [31:0] rxf_din;
     wire        rxf_wr, rxf_full;
 
-    can_rx_fifo_fsm u_rxf (
+    can_rx_fifo_fsm #(.CH_ID(CH_ID)) u_rxf (
         .aclk(aclk), .aresetn(aresetn),
         .rx_valid(rx_valid), .rx_ready(rx_ready), .rx_id(rx_id), .rx_dlc(rx_dlc),
         .rx_nwords(rx_nwords), .rx_data(rx_data),

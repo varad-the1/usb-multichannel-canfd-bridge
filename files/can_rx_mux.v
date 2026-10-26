@@ -4,8 +4,11 @@
 // stream (first-word-fall-through) to the FT2232H channel A FSM.
 // Round-robin between channels, one whole frame at a time.
 //
+// Each FIFO already holds complete frames:  CH, ID, DLC, N, data...  (the channel number is
+// written by can_rx_fifo_fsm). The mux only picks a channel and passes its frame through.
+//
 // Stream frame (32-bit words):
-//   word 0 : channel header, bits [7:0] = channel number
+//   word 0 : channel number (bits [7:0])
 //   word 1 : ID,  word 2 : DLC,  word 3 : N,  word 4.. : N data words
 // ---------------------------------------------------------------------
 module can_rx_mux #(
@@ -24,7 +27,7 @@ module can_rx_mux #(
     output wire                 out_empty,
     input  wire                 out_rd_en
 );
-    localparam [1:0] M_IDLE = 2'd0, M_HDR = 2'd1, M_PASS = 2'd2;
+    localparam [1:0] M_IDLE = 2'd0, M_PASS = 2'd2;
 
     reg [1:0] st;
     reg [7:0] sel;       // channel being forwarded
@@ -53,9 +56,8 @@ module can_rx_mux #(
     wire [31:0] sel_dout  = fifo_dout[{sel, 5'b00000} +: 32];
     wire        sel_empty = fifo_empty[sel];
 
-    assign out_data  = (st == M_HDR) ? {24'd0, sel} : sel_dout;
-    assign out_empty = (st == M_HDR) ? 1'b0 :
-                       (st == M_PASS) ? sel_empty : 1'b1;
+    assign out_data  = sel_dout;
+    assign out_empty = (st == M_PASS) ? sel_empty : 1'b1;
 
     wire pop = (st == M_PASS) && out_rd_en && !sel_empty;
 
@@ -66,29 +68,25 @@ module can_rx_mux #(
         end
     endgenerate
 
-    // FIFO word order is  ID(k=0), DLC(k=1), N(k=2), data(k>=3)
+    // FIFO word order is  CH(k=0), ID(k=1), DLC(k=2), N(k=3), data(k>=4)
     always @(posedge clk) begin
         if (!rstn) begin
             st <= M_IDLE; sel <= 8'd0; rr <= NUM_CH - 1; k <= 5'd0; nw <= 5'd0;
         end else begin
             case (st)
             M_IDLE: if (found) begin
-                sel <= pick; st <= M_HDR;
-            end
-
-            M_HDR: if (out_rd_en) begin
-                k <= 5'd0; st <= M_PASS;
+                sel <= pick; k <= 5'd0; st <= M_PASS;
             end
 
             M_PASS: if (pop) begin
-                if (k == 5'd2) begin
+                if (k == 5'd3) begin
                     nw <= sel_dout[4:0];
                     if (sel_dout[4:0] == 5'd0) begin
                         st <= M_IDLE; rr <= sel;
                     end else
                         k <= k + 1'b1;
-                end else if (k > 5'd2) begin
-                    if (k == nw + 5'd2) begin
+                end else if (k > 5'd3) begin
+                    if (k == nw + 5'd3) begin
                         st <= M_IDLE; rr <= sel;
                     end else
                         k <= k + 1'b1;

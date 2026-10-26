@@ -143,7 +143,8 @@ module can_fd_usb_top #(
                 .VAL_IER(VAL_IER_V     >> (32*g)),
                 .VAL_AFR(VAL_AFR_V     >> (32*g)),
                 .SR_READY_MASK(SR_READY_V >> (32*g)),
-                .TX_BUF(TX_BUF), .FIFO_AW(FIFO_AW), .AUTO_CFG(AUTO_CFG), .RX_EN(RX_EN)
+                .TX_BUF(TX_BUF), .FIFO_AW(FIFO_AW), .AUTO_CFG(AUTO_CFG), .RX_EN(RX_EN),
+                .CH_ID(g)
             ) u_ch (
                 .aclk(aclk), .aresetn(aresetn), .ft_clk(ft_clk), .ft_resetn(ft_resetn),
 
