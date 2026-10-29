@@ -10,12 +10,12 @@ module can_rx_fsm #(
     parameter [11:0] ADDR_FSR   = 12'h0E8,
     parameter [31:0] RXMSG_BASE = 32'h0000_2100,   // RX FIFO0 buffer 0 ID register (PG223: 0x2100, +0x48 per buffer)
     parameter integer RB_STRIDE = 72,              // 0x48 bytes per RX buffer
-    parameter [15:0] RX_POLL_PERIOD = 16'd200,     // aclk cycles between FSR polls
-    parameter integer RX_EN = 1                    // 0 = stay idle: never touch FSR / the RX buffers
+    parameter [15:0] RX_POLL_PERIOD = 16'd200      // aclk cycles between FSR polls
 )(
     input  wire         aclk,
     input  wire         aresetn,
     input  wire         link_up,
+    input  wire         rx_en,                     // 0 = stay idle: never touch FSR / the RX buffers (configuration frame)
     input  wire [31:0]  base_addr,
 
     output reg          rx_valid,                  // held until rx_ready
@@ -90,7 +90,7 @@ module can_rx_fsm #(
 
             case (state)
             R_WAIT: begin
-                if (!link_up || RX_EN == 0) cnt <= 16'd0;
+                if (!link_up || !rx_en) cnt <= 16'd0;
                 else if (cnt == RX_POLL_PERIOD) begin
                     cnt <= 16'd0; base_l <= base_addr; state <= R_FSR_I;
                 end else cnt <= cnt + 1'b1;

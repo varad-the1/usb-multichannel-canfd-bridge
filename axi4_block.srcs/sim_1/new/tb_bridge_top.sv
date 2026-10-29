@@ -1,52 +1,28 @@
 `timescale 1ns / 1ps
 
-// Two-way hybrid bench, EXTERNAL loopback. Both masters transmit AND receive on the one CAN FD core:
+// Two-channel bench, EXTERNAL loopback, bridge is the only AXI master.
 //
-//   bridge (custom RTL, RX_EN = 1): TX buffer 0, RX FIFO-0, PC over the FT2232H (ch B in, ch A out)
-//   axi_vip_0 (READ_WRITE)        : TX buffer 1, RX FIFO-1, direct AXI-Lite
+//   can_frames.txt   -> channel 0 -> CAN FD core 0 -> bus 0 -+
+//   can_frames_2.txt -> channel 1 -> CAN FD core 1 -> bus 1 -+-> second node replays each frame
+//   all frames go in over USB channel B, come back over USB channel A tagged with their channel number,
+//   and are written to ONE output file, one line per frame, with the channel in front:
+//        CH<n> 0x<ID> <length> <data bytes>
 //
-// Acceptance filters (set by the bridge's config FSM, RXFP = 0) route by ID:
-//   standard 0x123          -> filter 1 -> RX FIFO-1 -> the VIP
-//   extended 0x18FECA00     -> filter 0 -> RX FIFO-0 -> the bridge -> PC
+// The first frame sent after power-up is a configuration frame (word 0 = 0xFFFFFFFF); data sent before it is dropped.
 //
-// Frame A: PC -> bridge -> core -> bus -> core -> RX FIFO-1 -> VIP          (standard 0x123)
-// Frame B: VIP -> core -> bus -> core -> RX FIFO-0 -> bridge -> PC          (extended 0x18FECA00)
-// Frame C: frame B read back by the PC and written to the bridge again, as standard 0x123
-//          (bridge read -> bridge write): PC -> bridge -> core -> bus -> core -> RX FIFO-1 -> VIP
+// For every pair (frame p of channel 0, frame p of channel 1) both frames are sent back to back, so the two
+// channels run at the same time; the replies are then matched by their channel word.
 //
-// A second-node model on the CAN pins ACKs each frame and replays it (a lone core in normal mode gets
-// no ACK and never stores its own frames, PG223 Normal Mode). One frame is in flight at a time.
-// Classic CAN, 8 data bytes 11 22 33 44 55 66 77 88 in both frames.
-//
-// Bridge cell settings assumed: RX_EN = 1, VAL_MSR_V = 0, SR_READY_V = 8, AUTO_CFG = 1.
-// axi_vip_0 must be set to READ_WRITE.
+// Bridge cell settings assumed: NUM_CH = 2.
+// BASE0 = 0x44A00000 (core 0 at 0x44A00000, core 1 at 0x44A10000).
 
 module tb_bridge_top;
 
-    import axi_vip_pkg::*;
-    import axi_block_axi_vip_0_0_pkg::*;
-
-    // Auxiliary test: 1 = also forward frame B back through the PC as frame C; 0 = only the normal A and B flows.
-    localparam bit FORWARD_TEST = 1;
-
-    localparam bit [31:0] CAN_BASE = 32'h44A0_0000;
-    localparam bit [31:0] SR       = CAN_BASE + 32'h018;
-    localparam bit [31:0] ESR      = CAN_BASE + 32'h014;   // PG223: ACKER = bit 4
-    localparam bit [31:0] TRR      = CAN_BASE + 32'h090;
-    localparam bit [31:0] FSR      = CAN_BASE + 32'h0E8;   // FIFO-0: FL [14:8], IRI [7], RI [5:0]; FIFO-1: FL_1 [30:24], IRI_1 [23], RI_1 [21:16]
-    localparam bit [31:0] TB1_ID   = CAN_BASE + 32'h148;   // TX buffer 1 (stride 0x48), TRR bit 1
-    localparam bit [31:0] TB1_DLC  = CAN_BASE + 32'h14C;
-    localparam bit [31:0] TB1_DW0  = CAN_BASE + 32'h150;
-    localparam bit [31:0] TB1_DW1  = CAN_BASE + 32'h154;
-    localparam bit [31:0] RB1_BASE = CAN_BASE + 32'h4100;  // RX FIFO-1 buffer 0 (ID), stride 0x48
-    localparam bit [31:0] RX_STRIDE = 32'h48;
-
-    // ID / DLC words (PG223 TB*/RB*): standard 0x123 -> 0x24600000; extended 0x18FECA00 -> 0xC7FD9400
-    localparam bit [31:0] ID_A  = 32'h2460_0000;
-    localparam bit [31:0] ID_B  = 32'hC7FD_9400;
-    localparam bit [31:0] DLC_W = 32'h8000_0000;            // DLC = 8, classic CAN
-    localparam bit [31:0] D0    = 32'h1122_3344;
-    localparam bit [31:0] D1    = 32'h5566_7788;
+    parameter string IN_FILE0  = "D:/internship/axi4_block_canfd/can_frames.txt";
+    parameter string IN_FILE1  = "D:/internship/axi4_block_canfd/can_frames_2.txt";
+    parameter string OUT_FILE  = "D:/internship/axi4_block_canfd/tb_io/channels_out.txt";
+    parameter int    MAX_FRAMES = 0;          // frames per channel to send, 0 = all of them
+    localparam int   MAX_MSG   = 512;
 
     // ---------------------------------------------------------
     // Clocks / reset
@@ -63,7 +39,7 @@ module tb_bridge_top;
     // ---------------------------------------------------------
     // FT2232H model: channel B (PC -> FPGA) at byte level, channel A (FPGA -> PC) captured
     // ---------------------------------------------------------
-    reg  [7:0] ub [0:511];
+    reg  [7:0] ub [0:1023];
     integer    ub_n = 0, ub_i = 0;
     wire       ftb_rd_n;
     wire [7:0] ftb_data  = (ub_i < ub_n) ? ub[ub_i] : 8'h00;
@@ -72,26 +48,33 @@ module tb_bridge_top;
 
     wire       fta_wr_n, fta_rd_n, fta_oe_n, ftb_wr_n;
     wire [7:0] fta_data;
-    reg  [7:0] cap [0:511];
+    reg  [7:0] cap [0:1023];
     integer    cap_n = 0;
     always @(posedge ft_clk) if (fta_wr_n === 1'b0) begin cap[cap_n] = fta_data; cap_n = cap_n + 1; end
 
     // ---------------------------------------------------------
-    // CAN bus: the core's TX ANDed with the second node (dominant 0 wins)
+    // Two CAN buses: each core's TX ANDed with its own second node (dominant 0 wins)
     // ---------------------------------------------------------
-    wire can_tx;
-    bit  resp_line = 1;                              // second node's output, 1 = recessive
-    wire can_bus = can_tx & resp_line;
+    wire can0_tx, can1_tx;
+    wire resp0, resp1;                               // second nodes' outputs, 1 = recessive
+    wire can0_bus = can0_tx & resp0;
+    wire can1_bus = can1_tx & resp1;
 
-    wire [15:0] frames_sent;
-    wire [31:0] gpio_out;
+    can_second_node node0 (.bus(can0_bus), .line(resp0), .go(resetn));
+    can_second_node node1 (.bus(can1_bus), .line(resp1), .go(resetn));
+
+    wire [31:0] frames_sent;                         // 16 bits per channel
+    wire [1:0]  cfg_done;                            // per channel: configuration sequence finished
 
     axi_block_wrapper DUT (
-        .CAN_INTERFACE_0_rx (can_bus),
-        .CAN_INTERFACE_0_tx (can_tx),
+        .CAN_INTERFACE_0_rx (can0_bus),
+        .CAN_INTERFACE_0_tx (can0_tx),
+        .CAN_INTERFACE_1_rx (can1_bus),
+        .CAN_INTERFACE_1_tx (can1_tx),
         .clk                (clk),
         .reset_rtl_0        (resetn),
         .frames_sent_0      (frames_sent),
+        .cfg_done_0         (cfg_done),
         .ft_clk_0           (ft_clk),
         .fta_data_0         (fta_data),
         .fta_oe_n_0         (fta_oe_n),
@@ -101,57 +84,278 @@ module tb_bridge_top;
         .ftb_data_0         (ftb_data),
         .ftb_rd_n_0         (ftb_rd_n),
         .ftb_rxf_n_0        (ftb_rxf_n),
-        .ftb_wr_n_0         (ftb_wr_n),
-        .gpio_rtl_0_tri_o   (gpio_out)
+        .ftb_wr_n_0         (ftb_wr_n)
     );
-
-    // ---------------------------------------------------------
-    // Read/write AXI agent (axi_vip_0)
-    // ---------------------------------------------------------
-    axi_block_axi_vip_0_0_mst_t vip;
-
-    initial begin
-        vip = new("vip agent", DUT.axi_block_i.axi_vip_0.inst.IF);
-        vip.set_agent_tag("RW VIP");
-        vip.set_verbosity(0);
-        vip.start_master();
-    end
 
     int errors = 0;
 
-    task automatic wr32(input bit [31:0] addr, input bit [31:0] data);
-        xil_axi_resp_t resp;
-        vip.AXI4LITE_WRITE_BURST(addr, 0, data, resp);
-        if (resp !== XIL_AXI_RESP_OKAY) begin
-            errors++;
-            $error("[%0t] WR addr=0x%08h resp expected=OKAY actual=%0d", $time, addr, resp);
-        end
+    // ---------------------------------------------------------
+    // PC side: push words over USB channel B / read them back from channel A
+    // ---------------------------------------------------------
+    task automatic push_word(input bit [31:0] w);
+        ub[ub_n]   = w[7:0];    ub[ub_n+1] = w[15:8];
+        ub[ub_n+2] = w[23:16];  ub[ub_n+3] = w[31:24];
+        ub_n = ub_n + 4;
     endtask
 
-    task automatic rd32(input bit [31:0] addr, output bit [31:0] data);
-        xil_axi_resp_t resp;
-        bit [31:0] d;
-        vip.AXI4LITE_READ_BURST(addr, 0, d, resp);
-        if (resp !== XIL_AXI_RESP_OKAY) begin
-            errors++;
-            $error("[%0t] RD addr=0x%08h resp expected=OKAY actual=%0d", $time, addr, resp);
-        end
-        data = d;
-    endtask
-
-    task automatic chk(input string name, input bit [31:0] addr, input bit [31:0] exp, input bit [31:0] act);
-        if (act !== exp) begin
-            errors++;
-            $error("[%0t] MISMATCH %s addr=0x%08h expected=0x%08h actual=0x%08h", $time, name, addr, exp, act);
-        end
-    endtask
+    function automatic bit [31:0] getw(input int i);
+        return {cap[4*i+3], cap[4*i+2], cap[4*i+1], cap[4*i]};
+    endfunction
 
     // ---------------------------------------------------------
-    // Second CAN node. Listens to the core's frame, drives the ACK slot dominant, then replays
-    // the same bits as a frame from "another node" (the core drives the ACK slot of the replay).
-    // Handles standard/extended IDs, classic CAN and CAN FD with BRS = 0. A run of five equal
-    // bits exactly at the end of the data field is not handled in CAN FD frames.
+    // File-driven test
+    //   input line:  <ID hex> <length in bytes> <data bytes hex>      ("//" lines are ignored)
     // ---------------------------------------------------------
+    bit [31:0] m_id   [2][MAX_MSG];
+    int        m_len  [2][MAX_MSG];
+    bit [7:0]  m_data [2][MAX_MSG][64];
+    int        n_msg  [2];
+    bit [31:0] cfg_id  [2][32];                       // CFG lines of each file
+    bit [31:0] cfg_val [2][32];
+    int        n_cfg  [2];
+
+    function automatic bit [31:0] hex_of(input string t);
+        bit [31:0] v = 0;
+        int k = 0;
+        if (t.len() > 2 && t[0] == "0" && (t[1] == "x" || t[1] == "X")) k = 2;
+        for (; k < t.len(); k++) begin
+            if      (t[k] >= "0" && t[k] <= "9") v = (v << 4) | (t[k] - "0");
+            else if (t[k] >= "a" && t[k] <= "f") v = (v << 4) | (t[k] - "a" + 10);
+            else if (t[k] >= "A" && t[k] <= "F") v = (v << 4) | (t[k] - "A" + 10);
+        end
+        return v;
+    endfunction
+
+    task automatic load_messages(input int ch, input string path);
+        int fd, c, n;
+        string t;
+        n  = 0;
+        n_cfg[ch] = 0;
+        fd = $fopen(path, "r");
+        if (fd == 0) begin $error("cannot open %s", path); $finish; end
+        while (!$feof(fd) && n < MAX_MSG) begin
+            c = $fscanf(fd, "%s", t);
+            if (c != 1) break;
+            if (t.len() >= 2 && t.substr(0,1) == "//") begin
+                void'($fgets(t, fd));
+                continue;
+            end
+            if (t == "CFG" || t == "cfg") begin               // CFG <register id> <value>
+                void'($fscanf(fd, "%s", t));  cfg_id[ch][n_cfg[ch]]  = hex_of(t);
+                void'($fscanf(fd, "%s", t));  cfg_val[ch][n_cfg[ch]] = hex_of(t);
+                n_cfg[ch]++;
+                continue;
+            end
+            m_id[ch][n] = hex_of(t);
+            void'($fscanf(fd, "%d", m_len[ch][n]));
+            for (int k = 0; k < m_len[ch][n]; k++) begin
+                void'($fscanf(fd, "%s", t));
+                m_data[ch][n][k] = hex_of(t);
+            end
+            n++;
+        end
+        $fclose(fd);
+        n_msg[ch] = n;
+        $display("channel %0d: loaded %0d frames from %s", ch, n, path);
+    endtask
+
+    function automatic bit [31:0] id_word(input bit [31:0] id);        // PG223 TX/RX ID word
+        if (id > 32'h7FF) return {id[28:18], 1'b1, 1'b1, id[17:0], 1'b0};
+        else              return {id[10:0], 21'd0};
+    endfunction
+
+    function automatic bit [31:0] id_of_word(input bit [31:0] w);
+        if (w[19]) return {3'd0, w[31:21], w[18:1]};
+        else       return {21'd0, w[31:21]};
+    endfunction
+
+    function automatic bit [3:0] dlc_code(input int len);
+        if (len <= 8)  return len;
+        if (len <= 12) return 9;
+        if (len <= 16) return 10;
+        if (len <= 20) return 11;
+        if (len <= 24) return 12;
+        if (len <= 32) return 13;
+        if (len <= 48) return 14;
+        return 15;
+    endfunction
+
+    function automatic bit [31:0] data_word(input int ch, input int m, input int w);   // first byte = MSB
+        bit [31:0] v = 0;
+        for (int k = 0; k < 4; k++) v = (v << 8) | ((4*w + k < m_len[ch][m]) ? m_data[ch][m][4*w + k] : 8'h00);
+        return v;
+    endfunction
+
+    task automatic push_frame(input int ch, input int m);
+        int nw;
+        nw = (m_len[ch][m] + 3) / 4;
+        push_word(ch);
+        push_word(id_word(m_id[ch][m]));
+        push_word({dlc_code(m_len[ch][m]), (m_len[ch][m] > 8) ? 1'b1 : 1'b0, 27'd0});
+        push_word(nw);
+        for (int w = 0; w < nw; w++) push_word(data_word(ch, m, w));
+    endtask
+
+    int total [2];
+    int bad   [2];
+    int fd_out;
+
+    // check the frame that starts at word 'pos' of the capture against the frame sent on its channel
+    task automatic check_received(input int pos, input int idx, input bit sent0, input bit sent1);
+        bit [31:0] g0, g1, g2, g3, gw, ew;
+        bit [4:0]  exp_hdr;
+        bit        ok, c_id, c_hdr, c_n, c_dat, c_sent;
+        int        ch, m, nw, exp_nw;
+        g0 = getw(pos);  g1 = getw(pos+1);  g2 = getw(pos+2);  g3 = getw(pos+3);
+        nw = g3;
+        ch = (g0 == 0) ? 0 : (g0 == 1) ? 1 : -1;
+
+        // output file: channel in front, same layout as the input files
+        $fwrite(fd_out, "CH%0d 0x%0h %0d ", g0, id_of_word(g1), 4*nw);
+        for (int k = 0; k < 4*nw; k++) $fwrite(fd_out, "%02h ", cap[4*(pos+4) + 4*(k/4) + (3 - k%4)]);
+        $fwrite(fd_out, "%s", "\n");
+        $fflush(fd_out);
+
+        if (ch < 0) begin
+            bad[0]++;
+            $display("[%0t] MISMATCH: frame with unknown channel word %0d", $time, g0);
+            return;
+        end
+        m      = idx;
+        c_sent = (ch == 0) ? sent0 : sent1;
+        total[ch]++;
+        if (!c_sent) begin
+            bad[ch]++;
+            $display("[%0t] MISMATCH CH%0d: received a frame that was not sent", $time, ch);
+            return;
+        end
+        exp_nw  = (m_len[ch][m] + 3) / 4;
+        exp_hdr = {dlc_code(m_len[ch][m]), (m_len[ch][m] > 8) ? 1'b1 : 1'b0};
+        c_id  = (g1 == id_word(m_id[ch][m]));
+        c_hdr = (g2[31:27] == exp_hdr);
+        c_n   = (nw == exp_nw);
+        c_dat = 1;
+        for (int w = 0; w < exp_nw; w++) begin
+            gw = getw(pos + 4 + w);
+            ew = data_word(ch, m, w);
+            if (gw !== ew) c_dat = 0;
+        end
+        ok = c_id && c_hdr && c_n && c_dat;
+        if (!ok) begin
+            bad[ch]++;
+            $display("[%0t] MISMATCH CH%0d frame %0d (ID 0x%0h, %0d bytes): id=%0b hdr=%0b n=%0b data=%0b | got ID=0x%08h DLC=0x%08h N=%0d",
+                     $time, ch, m, m_id[ch][m], m_len[ch][m], c_id, c_hdr, c_n, c_dat, g1, g2, nw);
+        end
+    endtask
+
+    initial begin
+        int rounds, p, tries, pos, sent_words, fr_words;
+        int act;
+        bit [7:0] act_mask;
+        bit s0, s1;
+        wait (resetn === 1'b1);
+        #1000ns;
+        total[0] = 0; total[1] = 0; bad[0] = 0; bad[1] = 0;
+        load_messages(0, IN_FILE0);
+        load_messages(1, IN_FILE1);
+        rounds = (n_msg[0] > n_msg[1]) ? n_msg[0] : n_msg[1];
+        if (MAX_FRAMES > 0 && MAX_FRAMES < rounds) rounds = MAX_FRAMES;
+
+        // ---- before the configuration frame: a data frame must be dropped, nothing may reach the CAN bus ----
+        push_frame(0, 0);
+        #200us;
+        if (cap_n != 0 || cfg_done != 2'b00) begin
+            errors++;
+            $display("[%0t] MISMATCH: frame sent before configuration got through (cap_n=%0d cfg_done=%b)", $time, cap_n, cfg_done);
+        end else
+            $display("[%0t] frame sent before configuration was dropped, as required", $time);
+        ub_n = 0; ub_i = 0; cap_n = 0;
+
+        // ---- configuration frames from the input files (CFG lines): file 0 first, then file 1 ----
+        //   frame = 0xFFFFFFFF, M, then M x (register id, value).  Nothing is built in: every value comes from the files.
+        act = 0;
+        for (int cf = 0; cf < 2; cf++) begin
+            if (n_cfg[cf] > 0) begin
+                push_word(32'hFFFF_FFFF);  push_word(n_cfg[cf]);
+                for (int k = 0; k < n_cfg[cf]; k++) begin
+                    push_word(cfg_id[cf][k]);  push_word(cfg_val[cf][k]);
+                    if (cfg_id[cf][k] == 32'h0000_0000) act = cfg_val[cf][k];
+                end
+                $display("config frame from file %0d: %0d register writes", cf, n_cfg[cf]);
+            end
+        end
+        act_mask = (act >= 8) ? 8'hFF : ((8'd1 << act) - 8'd1);
+        begin : wait_cfg
+            int w = 0;
+            while ((cfg_done & act_mask) != act_mask && w < 5000) begin #1000ns; w++; end
+            if (act == 0 || (cfg_done & act_mask) != act_mask) begin
+                errors++;
+                $display("[%0t] MISMATCH: cores not configured, cfg_done=%b (active channels from the files: %0d)", $time, cfg_done, act);
+            end else
+                $display("[%0t] configuration applied, %0d cores configured (cfg_done=%b)", $time, act, cfg_done);
+        end
+        ub_n = 0; ub_i = 0; cap_n = 0;
+
+        fd_out = $fopen(OUT_FILE, "w");
+        $fwrite(fd_out, "// channel, ID, length (bytes), data -- received over USB channel A from %s and %s%s", IN_FILE0, IN_FILE1, "\n");
+
+        for (p = 0; p < rounds; p++) begin
+            s0 = (p < n_msg[0]);
+            s1 = (p < n_msg[1]);
+            ub_n = 0; ub_i = 0; cap_n = 0;                  // fresh buffers per pair
+            sent_words = 0;
+            if (s0) begin push_frame(0, p); sent_words += 4 + (m_len[0][p] + 3) / 4; end
+            if (s1) begin push_frame(1, p); sent_words += 4 + (m_len[1][p] + 3) / 4; end
+
+            tries = 0;
+            while (cap_n < 4*sent_words && tries < 30000) begin #1000ns; tries++; end
+            #3000ns;
+
+            pos = 0;
+            while (pos*4 + 16 <= cap_n) begin
+                fr_words = 4 + getw(pos + 3);
+                if (pos + fr_words > cap_n/4) break;
+                check_received(pos, p, s0, s1);
+                pos += fr_words;
+            end
+            if (cap_n != 4*sent_words) begin
+                $display("[%0t] MISMATCH pair %0d: expected %0d bytes back, got %0d", $time, p, 4*sent_words, cap_n);
+                bad[0]++;
+            end
+            if ((p + 1) % 10 == 0) $display("[%0t] %0d / %0d pairs done, mismatches ch0=%0d ch1=%0d", $time, p + 1, rounds, bad[0], bad[1]);
+        end
+        $fclose(fd_out);
+
+        $display("RESULT CH0: %0d received, %0d wrong", total[0], bad[0]);
+        $display("RESULT CH1: %0d received, %0d wrong", total[1], bad[1]);
+        $display("Output: %s", OUT_FILE);
+        if (bad[0] == 0 && bad[1] == 0 && errors == 0) $display("PASS: every frame came back unchanged on its own channel");
+        else                                            $display("FAIL: ch0 %0d wrong, ch1 %0d wrong", bad[0], bad[1]);
+        $finish;
+    end
+
+    // watchdog
+    initial begin
+        #20000ms;
+        $error("TIMEOUT: cap_n=%0d", cap_n);
+        $finish;
+    end
+
+endmodule
+
+// ---------------------------------------------------------
+// Second CAN node. Listens to the core's frame, drives the ACK slot dominant, then replays
+// the same bits as a frame from "another node" (the core drives the ACK slot of the replay).
+// Handles standard/extended IDs, classic CAN and CAN FD with BRS = 0. A run of five equal
+// bits exactly at the end of the data field is not handled in CAN FD frames.
+// ---------------------------------------------------------
+module can_second_node (
+    input  wire bus,
+    output bit  line,
+    input  wire go
+);
+    initial line = 1'b1;
+
     localparam time BT = 1000ns;             // nominal bit time (BRPR = 3, BTR = 0x30E on 80 MHz can_clk)
 
     function automatic int fd_bytes(input int dlc);
@@ -172,9 +376,9 @@ module tb_bridge_top;
         int  i, n, run, ack_idx, bytes, dlc, f_pos, dlc_lo, data_end, crc_end, crc_raw, p;
         bit  b, prev, ide, fdf, brs, bad;
         forever begin
-            wait (can_bus === 1'b1);
-            @(negedge can_bus);                 // SOF
-            if (can_bus !== 1'b0) continue;
+            wait (bus === 1'b1);
+            @(negedge bus);                 // SOF
+            if (bus !== 1'b0) continue;
             t0 = $time;
             raw.delete();
             i = 0; n = 0; run = 0; ack_idx = -1; dlc = 0; bytes = 0; bad = 0; prev = 0;
@@ -184,7 +388,7 @@ module tb_bridge_top;
             //   standard: SOF, ID(11), RTR/RRS, IDE, FDF/r0 ...      extended: ... IDE, ID(18), RTR/RRS, FDF/r1 ...
             while (!bad && (ack_idx < 0 || i < ack_idx)) begin
                 wait_until(t0 + i*BT + BT/2);
-                b = can_bus;
+                b = bus;
                 raw.push_back(b);
                 if (ack_idx < 0) begin
                     if (run == 5) begin                 // dynamic stuff bit
@@ -235,181 +439,25 @@ module tb_bridge_top;
 
             // --- 1) ACK the core's own frame ---
             wait_until(t0 + ack_idx*BT);
-            resp_line = 1'b0;
+            line = 1'b0;
             #(BT);
-            resp_line = 1'b1;
+            line = 1'b1;
             $display("[%0t] BUS: ACK driven", $time);
 
             // --- 2) wait out ACK delimiter + EOF(7) + IFS(3), then replay as another node ---
             wait_until(t0 + (ack_idx + 12 + 3)*BT);
             for (int j = 0; j < ack_idx; j++) begin
-                resp_line = raw[j];
+                line = raw[j];
                 #(BT);
             end
-            resp_line = 1'b1;                   // ACK slot: the core drives it
+            line = 1'b1;                   // ACK slot: the core drives it
             $display("[%0t] BUS: replayed frame, ACK slot left to the core", $time);
             wait_until($time + 9*BT);           // ACK slot, delimiter, EOF; the core's IFS follows
         end
     endtask
 
     initial begin
-        wait (resetn === 1'b1);
+        wait (go === 1'b1);
         ext_responder();
     end
-
-    // ---------------------------------------------------------
-    // PC side: push a frame over USB channel B / read it back from channel A
-    // ---------------------------------------------------------
-    task automatic push_word(input bit [31:0] w);
-        ub[ub_n]   = w[7:0];    ub[ub_n+1] = w[15:8];
-        ub[ub_n+2] = w[23:16];  ub[ub_n+3] = w[31:24];
-        ub_n = ub_n + 4;
-    endtask
-
-    function automatic bit [31:0] getw(input int i);
-        return {cap[4*i+3], cap[4*i+2], cap[4*i+1], cap[4*i]};
-    endfunction
-
-    // ---------------------------------------------------------
-    // Test
-    // ---------------------------------------------------------
-    initial begin
-        bit [31:0] d, rxb, id, dlc, dw0, dw1, fwd_d0, fwd_d1;
-        int tries;
-
-        wait (resetn === 1'b1);
-        #1000ns;
-
-        // ===== Frame A: PC -> bridge TX -> bus -> RX FIFO-1 -> VIP =====
-        push_word(32'd0);  push_word(ID_A);  push_word(DLC_W);  push_word(32'd2);
-        push_word(D0);     push_word(D1);
-        $display("[%0t] PC: frame A sent over USB (standard 0x123, ID word 0x%08h)", $time, ID_A);
-
-        tries = 0;
-        do begin
-            #1000ns;
-            rd32(FSR, d);
-            tries++;
-        end while (d[30:24] == 0 && tries < 1500);
-
-        if (d[30:24] == 0) begin
-            errors++;
-            $error("[%0t] frame A: RX FIFO-1 stayed empty after %0d polls: addr=0x%08h actual=0x%08h", $time, tries, FSR, d);
-            rd32(SR,  d);  $display("DIAG SR  = 0x%08h  NORMAL=%0b BBSY=%0b ESTAT=%0b%0b", d, d[3], d[5], d[8], d[7]);
-            rd32(ESR, d);  $display("DIAG ESR = 0x%08h  ACKER=%0b BERR=%0b STER=%0b FMER=%0b CRCER=%0b", d, d[4], d[3], d[2], d[1], d[0]);
-        end
-        else begin
-            rxb = RB1_BASE + RX_STRIDE * d[21:16];                  // oldest message: RX FIFO-1 read index RI_1
-            rd32(rxb + 32'h0, id);  rd32(rxb + 32'h4, dlc);
-            rd32(rxb + 32'h8, dw0); rd32(rxb + 32'hC, dw1);
-            $display("[%0t] VIP: frame A in RX FIFO-1: FSR=0x%08h  ID=0x%08h DLC=0x%08h DW0=0x%08h DW1=0x%08h",
-                     $time, d, id, dlc, dw0, dw1);
-            chk("frame A ID",  rxb + 32'h0, ID_A,  id);
-            chk("frame A DLC", rxb + 32'h4, DLC_W, dlc & 32'hFFE0_0000);   // [20:16] = matched filter, [15:0] = RX timestamp
-            chk("frame A matched filter (1 = standard 0x123 -> RX FIFO-1)", rxb + 32'h4, 32'd1, {27'd0, dlc[20:16]});
-            chk("frame A D0",  rxb + 32'h8, D0,    dw0);
-            chk("frame A D1",  rxb + 32'hC, D1,    dw1);
-
-            wr32(FSR, 32'h0080_0000);                               // IRI_1: pop RX FIFO-1
-            #500ns;
-            rd32(FSR, d);
-            chk("RX FIFO-1 fill after pop", FSR, 32'd0, {25'd0, d[30:24]});
-        end
-        chk("frame A must not reach USB channel A", 32'h0, 32'd0, cap_n);
-
-        // ===== Frame B: VIP -> TX buffer 1 -> bus -> RX FIFO-0 -> bridge -> PC =====
-        wr32(TB1_ID,  ID_B);
-        wr32(TB1_DLC, DLC_W);
-        wr32(TB1_DW0, D0);
-        wr32(TB1_DW1, D1);
-        wr32(TRR, 32'h0000_0002);                                   // request TX buffer 1
-        $display("[%0t] VIP: frame B requested (extended 0x18FECA00, ID word 0x%08h)", $time, ID_B);
-
-        tries = 0;
-        do begin
-            #1000ns;
-            rd32(TRR, d);
-            tries++;
-        end while (d[1] && tries < 1500);
-        if (d[1]) begin
-            errors++;
-            $error("[%0t] frame B: TX buffer 1 never completed (TRR=0x%08h)", $time, d);
-        end
-        else $display("[%0t] VIP: TX buffer 1 completed (TRR cleared)", $time);
-
-        tries = 0;
-        while (cap_n < 24 && tries < 3000) begin #1000ns; tries++; end    // 6 words from the bridge
-        #1000ns;
-        $display("[%0t] PC: frame B back on channel A (%0d bytes): ch=%0d ID=0x%08h DLC=0x%08h N=%0d D0=0x%08h D1=0x%08h",
-                 $time, cap_n, getw(0), getw(1), getw(2), getw(3), getw(4), getw(5));
-        chk("frame B channel", 32'h0, 32'd0,  getw(0));
-        chk("frame B ID",      32'h0, ID_B,   getw(1));
-        chk("frame B DLC",     32'h0, DLC_W,  getw(2) & 32'hFFE0_0000);
-        chk("frame B matched filter (0 = extended 0x18FECA00 -> RX FIFO-0)", 32'h0, 32'd0, (getw(2) >> 16) & 32'h1F);
-        chk("frame B N",       32'h0, 32'd2,  getw(3));
-        chk("frame B D0",      32'h0, D0,     getw(4));
-        chk("frame B D1",      32'h0, D1,     getw(5));
-        chk("bytes on USB channel A", 32'h0, 32'd24, cap_n);
-
-        // ===== Frame C (forwarding through the PC): the PC reads frame B off channel A and writes it back =====
-        //   bridge RX (read) -> USB ch A -> PC -> USB ch B -> bridge TX (write) -> bus -> RX FIFO-1 -> VIP
-        // The DLC word read back carries the RX timestamp [15:0] and the matched filter index [20:16]; those are
-        // reserved in a TX buffer, so only DLC/EDL/BRS are kept. The ID is changed to standard 0x123: forwarding
-        // with the same ID would match filter 0 again and loop forever.
-        if (FORWARD_TEST) begin
-        fwd_d0 = getw(4);
-        fwd_d1 = getw(5);
-        push_word(getw(0));                          // channel
-        push_word(ID_A);                             // new ID
-        push_word(getw(2) & 32'hFC00_0000);          // DLC, EDL, BRS
-        push_word(getw(3));                          // N
-        push_word(fwd_d0);
-        push_word(fwd_d1);
-        $display("[%0t] PC: frame B forwarded back over USB as standard 0x123 (D0=0x%08h D1=0x%08h)", $time, fwd_d0, fwd_d1);
-
-        tries = 0;
-        do begin
-            #1000ns;
-            rd32(FSR, d);
-            tries++;
-        end while (d[30:24] == 0 && tries < 1500);
-
-        if (d[30:24] == 0) begin
-            errors++;
-            $error("[%0t] frame C: RX FIFO-1 stayed empty after %0d polls: addr=0x%08h actual=0x%08h", $time, tries, FSR, d);
-            rd32(SR,  d);  $display("DIAG SR  = 0x%08h  NORMAL=%0b BBSY=%0b ESTAT=%0b%0b", d, d[3], d[5], d[8], d[7]);
-            rd32(ESR, d);  $display("DIAG ESR = 0x%08h  ACKER=%0b BERR=%0b STER=%0b FMER=%0b CRCER=%0b", d, d[4], d[3], d[2], d[1], d[0]);
-        end
-        else begin
-            rxb = RB1_BASE + RX_STRIDE * d[21:16];
-            rd32(rxb + 32'h0, id);  rd32(rxb + 32'h4, dlc);
-            rd32(rxb + 32'h8, dw0); rd32(rxb + 32'hC, dw1);
-            $display("[%0t] VIP: frame C in RX FIFO-1: FSR=0x%08h  ID=0x%08h DLC=0x%08h DW0=0x%08h DW1=0x%08h",
-                     $time, d, id, dlc, dw0, dw1);
-            chk("frame C ID (new ID)",  rxb + 32'h0, ID_A,    id);
-            chk("frame C DLC",          rxb + 32'h4, DLC_W,   dlc & 32'hFFE0_0000);
-            chk("frame C matched filter (1 = standard 0x123 -> RX FIFO-1)", rxb + 32'h4, 32'd1, {27'd0, dlc[20:16]});
-            chk("frame C D0 (as read back by the PC)", rxb + 32'h8, fwd_d0, dw0);
-            chk("frame C D1 (as read back by the PC)", rxb + 32'hC, fwd_d1, dw1);
-            chk("frame C D0 (original payload)",       rxb + 32'h8, D0,     dw0);
-            chk("frame C D1 (original payload)",       rxb + 32'hC, D1,     dw1);
-
-            wr32(FSR, 32'h0080_0000);                // IRI_1: pop RX FIFO-1
-        end
-        chk("frame C must not reach USB channel A again", 32'h0, 32'd24, cap_n);
-        end
-        chk("frames_sent (bridge sent frame A, plus C when forwarding)", 32'h0, FORWARD_TEST ? 32'd2 : 32'd1, {16'd0, frames_sent});
-
-        if (errors == 0) $display("PASS: A = PC->bridge->VIP, B = VIP->bridge->PC, C = B forwarded PC->bridge->VIP; both masters transmit and receive");
-        else             $display("FAIL: %0d error(s)", errors);
-        $finish;
-    end
-
-    // watchdog
-    initial begin
-        #10ms;
-        $error("TIMEOUT: cap_n=%0d frames_sent=%0d", cap_n, frames_sent);
-        $finish;
-    end
-
 endmodule

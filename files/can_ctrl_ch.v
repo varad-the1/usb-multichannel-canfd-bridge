@@ -6,17 +6,7 @@
 // ---------------------------------------------------------------------
 module can_ctrl_ch #(
     parameter [31:0] BASE_ADDR = 32'h0000_0000,   // 4 KB aligned
-    parameter [31:0] VAL_BRPR  = 32'h0000_0003,
-    parameter [31:0] VAL_BTR   = 32'h0000_030E,
-    parameter [31:0] VAL_FBRPR = 32'h0000_0000,
-    parameter [31:0] VAL_FBTR  = 32'h0000_0000,
-    parameter [31:0] VAL_MSR   = 32'h0000_0000,
-    parameter [31:0] VAL_IER   = 32'h0000_0000,
-    parameter [31:0] VAL_AFR   = 32'h0000_0003,
-    parameter [31:0] SR_READY_MASK = 32'h0000_0008,
-    parameter integer TX_BUF   = 0,
     parameter [15:0] RX_POLL_PERIOD = 16'd200,
-    parameter integer RX_EN         = 1,
     parameter [15:0] AXI_TIMEOUT    = 16'd1000
 )(
     input  wire         aclk,
@@ -24,6 +14,9 @@ module can_ctrl_ch #(
 
     // configuration
     input  wire         cfg_start,
+    input  wire [32*12-1:0] cfg_vals,   // register values from can_cfg_regs
+    input  wire         rx_en,          // RX path on (configuration frame)
+    input  wire [4:0]   tx_buf,         // TX buffer to use (configuration frame)
     output wire         cfg_busy,
     output wire         cfg_done,
     output wire         cfg_error,
@@ -87,12 +80,9 @@ module can_ctrl_ch #(
     wire        link_up = cfg_done & ~quiesce;
     assign cfg_busy = quiesce;
 
-    can_cfg_fsm #(
-        .VAL_BRPR(VAL_BRPR), .VAL_BTR(VAL_BTR), .VAL_FBRPR(VAL_FBRPR), .VAL_FBTR(VAL_FBTR),
-        .VAL_MSR(VAL_MSR), .VAL_IER(VAL_IER), .VAL_AFR(VAL_AFR), .SR_READY_MASK(SR_READY_MASK)
-    ) u_cfg (
+    can_cfg_fsm u_cfg (
         .aclk(aclk), .aresetn(aresetn),
-        .cfg_start(cfg_start), .base_addr(BASE_ADDR),
+        .cfg_start(cfg_start), .cfg_vals(cfg_vals), .base_addr(BASE_ADDR),
         .others_idle(tx_idle & rx_idle), .quiesce(quiesce),
         .cfg_done(cfg_done), .cfg_error(cfg_error),
         .err_code(cfg_err_code), .err_idx(cfg_err_idx), .active_base(active_base),
@@ -100,8 +90,8 @@ module can_ctrl_ch #(
         .rsp_valid(cfg_rv), .rsp_rdata(m_rsp_rdata), .rsp_err(m_rsp_err), .rsp_code(m_rsp_code)
     );
 
-    can_tx_fsm #(.TX_BUF(TX_BUF)) u_tx (
-        .aclk(aclk), .aresetn(aresetn), .link_up(link_up), .base_addr(active_base),
+    can_tx_fsm u_tx (
+        .aclk(aclk), .aresetn(aresetn), .link_up(link_up), .base_addr(active_base), .tx_buf(tx_buf),
         .tx_valid(tx_valid), .tx_ready(tx_ready), .tx_id(tx_id), .tx_dlc(tx_dlc),
         .tx_nwords(tx_nwords), .tx_data(tx_data),
         .tx_done(tx_done), .tx_error(tx_error), .tx_err_code(tx_err_code), .tx_idle(tx_idle),
@@ -109,8 +99,8 @@ module can_ctrl_ch #(
         .rsp_valid(tx_rv), .rsp_rdata(m_rsp_rdata), .rsp_err(m_rsp_err), .rsp_code(m_rsp_code)
     );
 
-    can_rx_fsm #(.RX_POLL_PERIOD(RX_POLL_PERIOD), .RX_EN(RX_EN)) u_rx (
-        .aclk(aclk), .aresetn(aresetn), .link_up(link_up), .base_addr(active_base),
+    can_rx_fsm #(.RX_POLL_PERIOD(RX_POLL_PERIOD)) u_rx (
+        .aclk(aclk), .aresetn(aresetn), .link_up(link_up), .rx_en(rx_en), .base_addr(active_base),
         .rx_valid(rx_valid), .rx_ready(rx_ready), .rx_id(rx_id), .rx_dlc(rx_dlc),
         .rx_nwords(rx_nwords), .rx_data(rx_data),
         .rx_error(rx_error), .rx_err_code(rx_err_code), .rx_idle(rx_idle),

@@ -10,18 +10,7 @@
 // ---------------------------------------------------------------------
 module can_channel #(
     parameter [31:0] BASE_ADDR = 32'h0000_0000,
-    parameter [31:0] VAL_BRPR  = 32'h0000_0003,
-    parameter [31:0] VAL_BTR   = 32'h0000_030E,
-    parameter [31:0] VAL_FBRPR = 32'h0000_0000,
-    parameter [31:0] VAL_FBTR  = 32'h0000_0000,
-    parameter [31:0] VAL_MSR   = 32'h0000_0000,
-    parameter [31:0] VAL_IER   = 32'h0000_0000,
-    parameter [31:0] VAL_AFR   = 32'h0000_0003,
-    parameter [31:0] SR_READY_MASK = 32'h0000_0008,
-    parameter integer TX_BUF   = 0,
     parameter integer FIFO_AW  = 12,             // 2**12 = 4096 words
-    parameter         AUTO_CFG = 0,              // 1 = run one config cycle after reset
-    parameter integer RX_EN    = 1,              // 0 = TX only: the RX FSM never polls or pops
     parameter [7:0]   CH_ID    = 8'd0            // channel number, stored in front of every received frame
 )(
     input  wire         aclk,
@@ -30,6 +19,9 @@ module can_channel #(
     input  wire         ft_resetn,
 
     input  wire         cfg_start,
+    input  wire [32*12-1:0] cfg_vals,
+    input  wire         rx_en,
+    input  wire [4:0]   tx_buf,
     output wire         cfg_busy,
     output wire         cfg_done,
     output wire         cfg_error,
@@ -72,19 +64,6 @@ module can_channel #(
     input  wire         m_axi_rvalid,
     output wire         m_axi_rready
 );
-    // ---------- optional power-up auto-configure ----------
-    reg [11:0] auto_cnt;
-    reg        auto_p;
-    always @(posedge aclk) begin
-        if (!aresetn) begin
-            auto_cnt <= 12'd0; auto_p <= 1'b0;
-        end else begin
-            if (auto_cnt != 12'hFFF) auto_cnt <= auto_cnt + 1'b1;
-            auto_p <= (auto_cnt >= 12'd2000) && (auto_cnt < 12'd2004);
-        end
-    end
-    wire cfg_start_i = cfg_start | ((AUTO_CFG != 0) ? auto_p : 1'b0);
-
     // ---------- register-level controller ----------
     wire         tx_valid, tx_ready, tx_done, tx_error;
     wire [31:0]  tx_id, tx_dlc;
@@ -97,13 +76,10 @@ module can_channel #(
     wire [511:0] rx_data;
 
     can_ctrl_ch #(
-        .BASE_ADDR(BASE_ADDR),
-        .VAL_BRPR(VAL_BRPR), .VAL_BTR(VAL_BTR), .VAL_FBRPR(VAL_FBRPR), .VAL_FBTR(VAL_FBTR),
-        .VAL_MSR(VAL_MSR), .VAL_IER(VAL_IER), .VAL_AFR(VAL_AFR),
-        .SR_READY_MASK(SR_READY_MASK), .TX_BUF(TX_BUF), .RX_EN(RX_EN)
+        .BASE_ADDR(BASE_ADDR)
     ) u_ctrl (
         .aclk(aclk), .aresetn(aresetn),
-        .cfg_start(cfg_start_i), .cfg_busy(cfg_busy), .cfg_done(cfg_done),
+        .cfg_start(cfg_start), .cfg_vals(cfg_vals), .rx_en(rx_en), .tx_buf(tx_buf), .cfg_busy(cfg_busy), .cfg_done(cfg_done),
         .cfg_error(cfg_error), .cfg_err_code(cfg_err_code), .cfg_err_idx(cfg_err_idx),
         .tx_valid(tx_valid), .tx_ready(tx_ready), .tx_id(tx_id), .tx_dlc(tx_dlc),
         .tx_nwords(tx_nwords), .tx_data(tx_data),

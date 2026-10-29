@@ -118,7 +118,11 @@ module tb_can_fd_usb;
     wire [NUM_CH-1:0]    awvalid, awready, wvalid, wready, bvalid, bready,
                          arvalid, arready, rvalid, rready;
 
-    can_fd_usb_top #(.NUM_CH(NUM_CH), .FIFO_AW(6), .AUTO_CFG(1), .RX_EN(1)) dut (
+    wire [15:0] early_cnt;
+    wire        cfg_applied, cfg_incomplete;
+    wire [3:0]  active_ch_w;
+
+    can_fd_usb_top #(.NUM_CH(NUM_CH), .FIFO_AW(6)) dut (
         .aclk(aclk), .aresetn(aresetn),
         .cfg_start(cfg_start), .cfg_busy(cfg_busy), .cfg_done(cfg_done), .cfg_error(cfg_error),
         .cfg_err_code(cfg_err_code), .cfg_err_idx(cfg_err_idx),
@@ -127,12 +131,143 @@ module tb_can_fd_usb;
         .ftb_data(ftb_data), .ftb_rxf_n(ftb_rxf_n), .ftb_rd_n(ftb_rd_n), .ftb_wr_n(ftb_wr_n),
         .frames_sent(frames_sent), .frames_err(frames_err), .last_tx_err(last_tx_err),
         .rx_error(rx_error), .rx_err_code(rx_err_code), .tx_fifo_full(tx_fifo_full),
-        .router_drop_cnt(router_drop_cnt),
-        .m_axi_awaddr(awaddr), .m_axi_awvalid(awvalid), .m_axi_awready(awready),
-        .m_axi_wdata(wdata), .m_axi_wstrb(wstrb), .m_axi_wvalid(wvalid), .m_axi_wready(wready),
-        .m_axi_bresp(bresp), .m_axi_bvalid(bvalid), .m_axi_bready(bready),
-        .m_axi_araddr(araddr), .m_axi_arvalid(arvalid), .m_axi_arready(arready),
-        .m_axi_rdata(rdata), .m_axi_rresp(rresp), .m_axi_rvalid(rvalid), .m_axi_rready(rready)
+        .router_drop_cnt(router_drop_cnt), .early_drop_cnt(early_cnt), .cfg_applied(cfg_applied), .cfg_incomplete(cfg_incomplete), .active_ch(active_ch_w),
+        .m_axi_0_awaddr(awaddr[32*0 +: 32]),
+        .m_axi_0_awvalid(awvalid[0]),
+        .m_axi_0_wdata(wdata[32*0 +: 32]),
+        .m_axi_0_wstrb(wstrb[4*0 +: 4]),
+        .m_axi_0_wvalid(wvalid[0]),
+        .m_axi_0_bready(bready[0]),
+        .m_axi_0_araddr(araddr[32*0 +: 32]),
+        .m_axi_0_arvalid(arvalid[0]),
+        .m_axi_0_rready(rready[0]),
+        .m_axi_0_awready(awready[0]),
+        .m_axi_0_wready(wready[0]),
+        .m_axi_0_bresp(bresp[2*0 +: 2]),
+        .m_axi_0_bvalid(bvalid[0]),
+        .m_axi_0_arready(arready[0]),
+        .m_axi_0_rdata(rdata[32*0 +: 32]),
+        .m_axi_0_rresp(rresp[2*0 +: 2]),
+        .m_axi_0_rvalid(rvalid[0]),
+        .m_axi_1_awaddr(awaddr[32*1 +: 32]),
+        .m_axi_1_awvalid(awvalid[1]),
+        .m_axi_1_wdata(wdata[32*1 +: 32]),
+        .m_axi_1_wstrb(wstrb[4*1 +: 4]),
+        .m_axi_1_wvalid(wvalid[1]),
+        .m_axi_1_bready(bready[1]),
+        .m_axi_1_araddr(araddr[32*1 +: 32]),
+        .m_axi_1_arvalid(arvalid[1]),
+        .m_axi_1_rready(rready[1]),
+        .m_axi_1_awready(awready[1]),
+        .m_axi_1_wready(wready[1]),
+        .m_axi_1_bresp(bresp[2*1 +: 2]),
+        .m_axi_1_bvalid(bvalid[1]),
+        .m_axi_1_arready(arready[1]),
+        .m_axi_1_rdata(rdata[32*1 +: 32]),
+        .m_axi_1_rresp(rresp[2*1 +: 2]),
+        .m_axi_1_rvalid(rvalid[1]),
+        .m_axi_2_awaddr(),
+        .m_axi_2_awvalid(),
+        .m_axi_2_wdata(),
+        .m_axi_2_wstrb(),
+        .m_axi_2_wvalid(),
+        .m_axi_2_bready(),
+        .m_axi_2_araddr(),
+        .m_axi_2_arvalid(),
+        .m_axi_2_rready(),
+        .m_axi_2_awready(1'd0),
+        .m_axi_2_wready(1'd0),
+        .m_axi_2_bresp(2'd0),
+        .m_axi_2_bvalid(1'd0),
+        .m_axi_2_arready(1'd0),
+        .m_axi_2_rdata(32'd0),
+        .m_axi_2_rresp(2'd0),
+        .m_axi_2_rvalid(1'd0),
+        .m_axi_3_awaddr(),
+        .m_axi_3_awvalid(),
+        .m_axi_3_wdata(),
+        .m_axi_3_wstrb(),
+        .m_axi_3_wvalid(),
+        .m_axi_3_bready(),
+        .m_axi_3_araddr(),
+        .m_axi_3_arvalid(),
+        .m_axi_3_rready(),
+        .m_axi_3_awready(1'd0),
+        .m_axi_3_wready(1'd0),
+        .m_axi_3_bresp(2'd0),
+        .m_axi_3_bvalid(1'd0),
+        .m_axi_3_arready(1'd0),
+        .m_axi_3_rdata(32'd0),
+        .m_axi_3_rresp(2'd0),
+        .m_axi_3_rvalid(1'd0),
+        .m_axi_4_awaddr(),
+        .m_axi_4_awvalid(),
+        .m_axi_4_wdata(),
+        .m_axi_4_wstrb(),
+        .m_axi_4_wvalid(),
+        .m_axi_4_bready(),
+        .m_axi_4_araddr(),
+        .m_axi_4_arvalid(),
+        .m_axi_4_rready(),
+        .m_axi_4_awready(1'd0),
+        .m_axi_4_wready(1'd0),
+        .m_axi_4_bresp(2'd0),
+        .m_axi_4_bvalid(1'd0),
+        .m_axi_4_arready(1'd0),
+        .m_axi_4_rdata(32'd0),
+        .m_axi_4_rresp(2'd0),
+        .m_axi_4_rvalid(1'd0),
+        .m_axi_5_awaddr(),
+        .m_axi_5_awvalid(),
+        .m_axi_5_wdata(),
+        .m_axi_5_wstrb(),
+        .m_axi_5_wvalid(),
+        .m_axi_5_bready(),
+        .m_axi_5_araddr(),
+        .m_axi_5_arvalid(),
+        .m_axi_5_rready(),
+        .m_axi_5_awready(1'd0),
+        .m_axi_5_wready(1'd0),
+        .m_axi_5_bresp(2'd0),
+        .m_axi_5_bvalid(1'd0),
+        .m_axi_5_arready(1'd0),
+        .m_axi_5_rdata(32'd0),
+        .m_axi_5_rresp(2'd0),
+        .m_axi_5_rvalid(1'd0),
+        .m_axi_6_awaddr(),
+        .m_axi_6_awvalid(),
+        .m_axi_6_wdata(),
+        .m_axi_6_wstrb(),
+        .m_axi_6_wvalid(),
+        .m_axi_6_bready(),
+        .m_axi_6_araddr(),
+        .m_axi_6_arvalid(),
+        .m_axi_6_rready(),
+        .m_axi_6_awready(1'd0),
+        .m_axi_6_wready(1'd0),
+        .m_axi_6_bresp(2'd0),
+        .m_axi_6_bvalid(1'd0),
+        .m_axi_6_arready(1'd0),
+        .m_axi_6_rdata(32'd0),
+        .m_axi_6_rresp(2'd0),
+        .m_axi_6_rvalid(1'd0),
+        .m_axi_7_awaddr(),
+        .m_axi_7_awvalid(),
+        .m_axi_7_wdata(),
+        .m_axi_7_wstrb(),
+        .m_axi_7_wvalid(),
+        .m_axi_7_bready(),
+        .m_axi_7_araddr(),
+        .m_axi_7_arvalid(),
+        .m_axi_7_rready(),
+        .m_axi_7_awready(1'd0),
+        .m_axi_7_wready(1'd0),
+        .m_axi_7_bresp(2'd0),
+        .m_axi_7_bvalid(1'd0),
+        .m_axi_7_arready(1'd0),
+        .m_axi_7_rdata(32'd0),
+        .m_axi_7_rresp(2'd0),
+        .m_axi_7_rvalid(1'd0)
     );
 
     tb_can_ip_model u_ip0 (
@@ -205,10 +340,53 @@ module tb_can_fd_usb;
         repeat (20) @(posedge aclk);
         aresetn = 1;
 
-        // ---- 1. auto configuration of both channels ----
+        // ---- 0. nothing is configured yet: a data frame must be dropped and counted, no CAN activity ----
+        push_word(32'd0);  push_word(32'h0000_0777); push_word(32'h0000_0000);
+        push_word(32'd0);                                                       // ch0, no data, BEFORE the configuration frame
+        repeat (3000) @(posedge aclk);
+        expect32("early_drop_cnt", {16'd0, early_cnt}, 32'd1);
+        expect32("cfg_applied before config", {31'd0, cfg_applied}, 32'd0);
+        expect32("ch0 frames_sent before config", {16'd0, frames_sent[15:0]}, 32'd0);
+        expect32("cfg_done before config", {30'd0, cfg_done}, 32'd0);
+
+        // ---- 0b. an INCOMPLETE configuration frame (no BTR): must not start anything ----
+        push_word(32'hFFFF_FFFF);  push_word(32'd3);
+        push_word(32'h0000_0000);  push_word(32'd2);                            // NUM_ACTIVE = 2
+        push_word(32'h0000_FF01);  push_word(32'h0000_0007);                    // BRPR only
+        push_word(32'h0000_000D);  push_word(32'd1);                            // AUTO_CFG = 1: would start now, if it were complete
+        repeat (3000) @(posedge aclk);
+        expect32("incomplete flag", {31'd0, cfg_incomplete}, 32'd1);
+        expect32("cfg_applied after incomplete frame", {31'd0, cfg_applied}, 32'd0);
+        expect32("cfg_done after incomplete frame", {30'd0, cfg_done}, 32'd0);
+
+        // ---- 1. complete configuration frame: everything comes from this frame ----
+        push_word(32'hFFFF_FFFF);  push_word(32'd10);                           // config frame, 10 register writes
+        push_word(32'h0000_0000);  push_word(32'd2);                            // NUM_ACTIVE = 2
+        push_word(32'h0000_FF01);  push_word(32'h0000_0007);                    // BRPR, all channels
+        push_word(32'h0000_FF02);  push_word(32'h0000_0123);                    // BTR, all channels
+        push_word(32'h0000_FF05);  push_word(32'h0000_0000);                    // MSR (normal mode), all channels
+        push_word(32'h0000_FF07);  push_word(32'h0000_0001);                    // AFR: filter 0 on
+        push_word(32'h0000_FF0C);  push_word(32'h0000_0F0F);                    // WMR
+        push_word(32'h0000_0108);  push_word(32'h0000_0000);                    // AFMR0, channel 1 only
+        push_word(32'h0000_FF0F);  push_word(32'd1);                            // RX_EN = 1 on all channels
+        push_word(32'h0000_0110);  push_word(32'd2);                            // TX_BUF = 2 on channel 1 (channel 0 keeps buffer 0)
+        push_word(32'h0000_000D);  push_word(32'd0);                            // AUTO_CFG = 0: store only, do not start
+        repeat (6000) @(posedge aclk);
+        expect32("AUTO_CFG=0: cfg_done stays low", {30'd0, cfg_done}, 32'd0);
+        expect32("AUTO_CFG=0: cfg_applied stays low", {31'd0, cfg_applied}, 32'd0);
+        expect32("AUTO_CFG=0: registers are stored but the core was not touched (ip0 BRPR)", u_ip0.mem[12'h002], 32'd0);
+        push_word(32'hFFFF_FFFF);  push_word(32'd1);                            // second frame: START only
+        push_word(32'h0000_000E);  push_word(32'd1);
         wait (cfg_done == 2'b11);
         $display("config done on both channels @ %0t", $time);
         expect32("cfg_error", {30'd0, cfg_error}, 32'd0);
+        expect32("cfg_applied", {31'd0, cfg_applied}, 32'd1);
+        expect32("incomplete flag cleared", {31'd0, cfg_incomplete}, 32'd0);
+        expect32("active_ch", {28'd0, active_ch_w}, 32'd2);
+        expect32("ip0 BRPR", u_ip0.mem[12'h002], 32'h0000_0007);
+        expect32("ip1 BRPR", u_ip1.mem[12'h002], 32'h0000_0007);
+        expect32("ip0 BTR",  u_ip0.mem[12'h003], 32'h0000_0123);
+        expect32("ip1 BTR",  u_ip1.mem[12'h003], 32'h0000_0123);
 
         // ---- 2. TX: USB -> router -> channel FIFOs -> IP models ----
         push_word(32'd1);  push_word(32'h12345678); push_word(32'h4000_0000);
@@ -225,10 +403,10 @@ module tb_can_fd_usb;
         expect32("ch0 frames_sent", {16'd0, frames_sent[15:0]},  32'd1);
         expect32("ch1 frames_sent", {16'd0, frames_sent[31:16]}, 32'd1);
         expect32("router_drop",     {16'd0, router_drop_cnt},    32'd1);
-        expect32("ip1 tx ID",   u_ip1.mem[12'h040], 32'h12345678);
-        expect32("ip1 tx DLC",  u_ip1.mem[12'h041], 32'h4000_0000);
-        expect32("ip1 tx D0",   u_ip1.mem[12'h042], 32'hDEADBEEF);
-        expect32("ip1 tx D1",   u_ip1.mem[12'h043], 32'hCAFEBABE);
+        expect32("ip1 tx ID (TX buffer 2)",   u_ip1.mem[12'h064], 32'h12345678);
+        expect32("ip1 tx DLC",  u_ip1.mem[12'h065], 32'h4000_0000);
+        expect32("ip1 tx D0",   u_ip1.mem[12'h066], 32'hDEADBEEF);
+        expect32("ip1 tx D1",   u_ip1.mem[12'h067], 32'hCAFEBABE);
         expect32("ip0 tx ID",   u_ip0.mem[12'h040], 32'h0000_00AB);
         expect32("ip0 tx_count", u_ip0.tx_count, 32'd1);
         expect32("ip1 tx_count", u_ip1.tx_count, 32'd1);
@@ -334,6 +512,49 @@ module tb_can_fd_usb;
         expect32("5b bytes on ch A", cap_n, 32'd188);
         check_ident_frame("5b 1st frame, injected on ch0", 35, 8'd0);
         check_ident_frame("5b 2nd frame, injected on ch1", 41, 8'd1);
+
+        // ---- 6. disable channel 1 with a second configuration frame (NUM_ACTIVE = 1) ----
+        // A data frame for channel 1 must now be dropped and counted; channel 0 still works.
+        begin : disable_ch1
+            integer drops_before, sent0_before;
+            drops_before = router_drop_cnt;
+            sent0_before = frames_sent[15:0];
+            push_word(32'hFFFF_FFFF);  push_word(32'd1);
+            push_word(32'h0000_0000);  push_word(32'd1);                        // NUM_ACTIVE = 1
+            repeat (20000) @(posedge aclk);
+            expect32("active_ch after reconfig", {28'd0, active_ch_w}, 32'd1);
+            push_word(32'd1);  push_word(32'h0000_0555); push_word(32'h0000_0000);
+            push_word(32'd0);                                                   // ch1, no data -> dropped
+            push_word(32'd0);  push_word(32'h0000_0556); push_word(32'h0000_0000);
+            push_word(32'd0);                                                   // ch0, no data -> sent
+            repeat (60000) @(posedge aclk);
+            expect32("ch1 frame dropped", router_drop_cnt, drops_before + 1);
+            expect32("ch0 frame still sent", {16'd0, frames_sent[15:0]}, sent0_before + 1);
+            expect32("ch1 frames_sent unchanged", {16'd0, frames_sent[31:16]}, 32'd1);
+        end
+
+        // ---- 7. RX_EN is live: channel 0 off -> its RX FIFO is not touched; back on -> the frame comes through ----
+        begin : rx_gate
+            integer c0, idx0;
+            c0 = cap_n;
+            push_word(32'hFFFF_FFFF);  push_word(32'd1);
+            push_word(32'h0000_000F);  push_word(32'd0);                        // RX_EN = 0, channel 0
+            repeat (20000) @(posedge aclk);
+            idx0 = 12'h840 + 18 * u_ip0.ri;                                     // next RX FIFO-0 buffer of ip0
+            u_ip0.mem[idx0]     = 32'hC0DE0001;
+            u_ip0.mem[idx0 + 1] = 32'h2000_0000;                                // DLC 2 -> 1 word
+            u_ip0.mem[idx0 + 2] = 32'h77777777;
+            u_ip0.fl = 7'd1;
+            repeat (30000) @(posedge aclk);
+            expect32("RX_EN=0: nothing sent to the PC", cap_n, c0);
+            expect32("RX_EN=0: ip0 RX FIFO untouched", {25'd0, u_ip0.fl}, 32'd1);
+            push_word(32'hFFFF_FFFF);  push_word(32'd1);
+            push_word(32'h0000_000F);  push_word(32'd1);                        // RX_EN = 1, channel 0
+            t = 0;
+            while (cap_n < c0 + 20 && t < 200000) begin @(posedge ft_clk); t = t + 1; end
+            expect32("RX_EN=1: frame reaches the PC (20 bytes)", cap_n, c0 + 20);
+            expect32("RX_EN=1: ID word", {cap[c0+7], cap[c0+6], cap[c0+5], cap[c0+4]}, 32'hC0DE0001);
+        end
 
         if (errs == 0) $display("PASS");
         else           $display("FAILED with %0d error(s)", errs);

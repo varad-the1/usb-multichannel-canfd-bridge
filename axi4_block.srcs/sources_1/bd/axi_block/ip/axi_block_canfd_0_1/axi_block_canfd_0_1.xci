@@ -1,0 +1,2464 @@
+{
+  "schema": "xilinx.com:schema:json_instance:1.0",
+  "ip_inst": {
+    "xci_name": "axi_block_canfd_0_1",
+    "cell_name": "canfd_1",
+    "component_reference": "xilinx.com:ip:canfd:3.0",
+    "ip_revision": "14",
+    "gen_directory": "../../../../../../axi4_block.gen/sources_1/bd/axi_block/ip/axi_block_canfd_0_1",
+    "parameters": {
+      "component_parameters": {
+        "Component_Name": [ { "value": "axi_block_canfd_0_1", "resolve_type": "user", "usage": "all" } ],
+        "NUM_OF_TX_BUF": [ { "value": "32", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "RX_MODE": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "NUM_OF_RX_MB_BUF": [ { "value": "48", "resolve_type": "user", "format": "long", "enabled": false, "usage": "all" } ],
+        "C_EINJ_MODE": [ { "value": "0", "resolve_type": "user", "format": "long", "enabled": false, "usage": "all" } ],
+        "C_IS_NISO": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "C_SELECT_XPM": [ { "value": "1", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "C_RX_FIFO_0_DEPTH": [ { "value": "64", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "EN_RX_FIFO_1": [ { "value": "true", "resolve_type": "user", "format": "bool", "usage": "all" } ],
+        "C_RX_FIFO_1_DEPTH": [ { "value": "64", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "C_EN_APB": [ { "value": "0", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ]
+      },
+      "model_parameters": {
+        "C_FAMILY": [ { "value": "spartan7", "resolve_type": "generated", "usage": "all" } ],
+        "C_S_AXI_ADDR_WIDTH": [ { "value": "15", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_S_AXI_DATA_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_RX_FIFO_0_DEPTH": [ { "value": "64", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "EN_RX_FIFO_1": [ { "value": "1", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_RX_FIFO_1_DEPTH": [ { "value": "64", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_S2C_MTBF_STAGES": [ { "value": "2", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_C2S_MTBF_STAGES": [ { "value": "4", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_IS_NISO": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "RX_MODE": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_EN_APB": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_EINJ_MODE": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "NUM_OF_RX_MB_BUF": [ { "value": "48", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "NUM_OF_TX_BUF": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ]
+      },
+      "project_parameters": {
+        "ARCHITECTURE": [ { "value": "spartan7", "resolve_type": "generated", "usage": "all" } ],
+        "BASE_BOARD_PART": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "BOARD_CONNECTIONS": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "DEVICE": [ { "value": "xc7s6", "resolve_type": "generated", "usage": "all" } ],
+        "PACKAGE": [ { "value": "ftgb196", "resolve_type": "generated", "usage": "all" } ],
+        "PREFHDL": [ { "value": "VERILOG", "resolve_type": "generated", "usage": "all" } ],
+        "SILICON_REVISION": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "SIMULATOR_LANGUAGE": [ { "value": "MIXED", "resolve_type": "generated", "usage": "all" } ],
+        "SPEEDGRADE": [ { "value": "-1", "resolve_type": "generated", "usage": "all" } ],
+        "STATIC_POWER": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "TEMPERATURE_GRADE": [ { "value": "", "resolve_type": "generated", "usage": "all" } ]
+      },
+      "runtime_parameters": {
+        "IPCONTEXT": [ { "value": "IP_Integrator" } ],
+        "IPREVISION": [ { "value": "14" } ],
+        "MANAGED": [ { "value": "TRUE" } ],
+        "OUTPUTDIR": [ { "value": "../../../../../../axi4_block.gen/sources_1/bd/axi_block/ip/axi_block_canfd_0_1" } ],
+        "SELECTEDSIMMODEL": [ { "value": "" } ],
+        "SHAREDDIR": [ { "value": "../../ipshared" } ],
+        "SWVERSION": [ { "value": "2025.2" } ],
+        "SYNTHESISFLOW": [ { "value": "OUT_OF_CONTEXT" } ]
+      }
+    },
+    "boundary": {
+      "ports": {
+        "can_clk": [ { "direction": "in" } ],
+        "can_clk_x2": [ { "direction": "in" } ],
+        "can_phy_tx": [ { "direction": "out" } ],
+        "can_phy_rx": [ { "direction": "in" } ],
+        "ip2bus_intrevent": [ { "direction": "out" } ],
+        "s_axi_aclk": [ { "direction": "in", "driver_value": "0" } ],
+        "s_axi_aresetn": [ { "direction": "in", "driver_value": "1" } ],
+        "s_axi_awaddr": [ { "direction": "in", "size_left": "14", "size_right": "0" } ],
+        "s_axi_awvalid": [ { "direction": "in" } ],
+        "s_axi_awready": [ { "direction": "out" } ],
+        "s_axi_wdata": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
+        "s_axi_wvalid": [ { "direction": "in" } ],
+        "s_axi_wready": [ { "direction": "out" } ],
+        "s_axi_bresp": [ { "direction": "out", "size_left": "1", "size_right": "0" } ],
+        "s_axi_bvalid": [ { "direction": "out" } ],
+        "s_axi_bready": [ { "direction": "in" } ],
+        "s_axi_araddr": [ { "direction": "in", "size_left": "14", "size_right": "0" } ],
+        "s_axi_arvalid": [ { "direction": "in" } ],
+        "s_axi_arready": [ { "direction": "out" } ],
+        "s_axi_rdata": [ { "direction": "out", "size_left": "31", "size_right": "0" } ],
+        "s_axi_rresp": [ { "direction": "out", "size_left": "1", "size_right": "0" } ],
+        "s_axi_rvalid": [ { "direction": "out" } ],
+        "s_axi_rready": [ { "direction": "in" } ]
+      },
+      "interfaces": {
+        "interrupt": {
+          "vlnv": "xilinx.com:signal:interrupt:1.0",
+          "abstraction_type": "xilinx.com:signal:interrupt_rtl:1.0",
+          "mode": "master",
+          "parameters": {
+            "SENSITIVITY": [ { "value": "LEVEL_HIGH", "value_src": "constant", "value_permission": "bd", "usage": "all" } ],
+            "PortWidth": [ { "value": "1", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "INTERRUPT": [ { "physical_name": "ip2bus_intrevent" } ]
+          }
+        },
+        "CAN_S_AXI_LITE": {
+          "vlnv": "xilinx.com:interface:aximm:1.0",
+          "abstraction_type": "xilinx.com:interface:aximm_rtl:1.0",
+          "mode": "slave",
+          "memory_map_ref": "S_AXI_LITE",
+          "parameters": {
+            "DATA_WIDTH": [ { "value": "32", "value_src": "auto", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "PROTOCOL": [ { "value": "AXI4LITE", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "FREQ_HZ": [ { "value": "100000000", "value_src": "user_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "ID_WIDTH": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "ADDR_WIDTH": [ { "value": "15", "value_src": "auto", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "AWUSER_WIDTH": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "ARUSER_WIDTH": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "WUSER_WIDTH": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "RUSER_WIDTH": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "BUSER_WIDTH": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "READ_WRITE_MODE": [ { "value": "READ_WRITE", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_BURST": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_LOCK": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_PROT": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_CACHE": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_QOS": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_REGION": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_WSTRB": [ { "value": "0", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_BRESP": [ { "value": "1", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "HAS_RRESP": [ { "value": "1", "value_src": "constant", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "SUPPORTS_NARROW_BURST": [ { "value": "0", "value_src": "auto_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "NUM_READ_OUTSTANDING": [ { "value": "1", "value_src": "auto_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "NUM_WRITE_OUTSTANDING": [ { "value": "1", "value_src": "auto_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "MAX_BURST_LENGTH": [ { "value": "1", "value_src": "auto_prop", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "PHASE": [ { "value": "0.0", "value_permission": "bd", "resolve_type": "generated", "format": "float", "is_ips_inferred": true, "is_static_object": false } ],
+            "CLK_DOMAIN": [ { "value": "axi_block_clk", "value_src": "default_prop", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "NUM_READ_THREADS": [ { "value": "1", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "NUM_WRITE_THREADS": [ { "value": "1", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "RUSER_BITS_PER_BYTE": [ { "value": "0", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "WUSER_BITS_PER_BYTE": [ { "value": "0", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "ARADDR": [ { "physical_name": "s_axi_araddr" } ],
+            "ARREADY": [ { "physical_name": "s_axi_arready" } ],
+            "ARVALID": [ { "physical_name": "s_axi_arvalid" } ],
+            "AWADDR": [ { "physical_name": "s_axi_awaddr" } ],
+            "AWREADY": [ { "physical_name": "s_axi_awready" } ],
+            "AWVALID": [ { "physical_name": "s_axi_awvalid" } ],
+            "BREADY": [ { "physical_name": "s_axi_bready" } ],
+            "BRESP": [ { "physical_name": "s_axi_bresp" } ],
+            "BVALID": [ { "physical_name": "s_axi_bvalid" } ],
+            "RDATA": [ { "physical_name": "s_axi_rdata" } ],
+            "RREADY": [ { "physical_name": "s_axi_rready" } ],
+            "RRESP": [ { "physical_name": "s_axi_rresp" } ],
+            "RVALID": [ { "physical_name": "s_axi_rvalid" } ],
+            "WDATA": [ { "physical_name": "s_axi_wdata" } ],
+            "WREADY": [ { "physical_name": "s_axi_wready" } ],
+            "WVALID": [ { "physical_name": "s_axi_wvalid" } ]
+          }
+        },
+        "s_axi_aclk_i": {
+          "vlnv": "xilinx.com:signal:clock:1.0",
+          "abstraction_type": "xilinx.com:signal:clock_rtl:1.0",
+          "mode": "slave",
+          "parameters": {
+            "ASSOCIATED_BUSIF": [ { "value": "CAN_S_AXI_LITE", "value_src": "constant", "value_permission": "bd", "usage": "all" } ],
+            "ASSOCIATED_RESET": [ { "value": "s_axi_aresetn", "value_src": "constant", "value_permission": "bd", "usage": "all" } ],
+            "FREQ_HZ": [ { "value": "100000000", "value_src": "user_prop", "value_permission": "bd", "resolve_type": "user", "format": "long", "usage": "all" } ],
+            "FREQ_TOLERANCE_HZ": [ { "value": "0", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "PHASE": [ { "value": "0.0", "value_permission": "bd", "resolve_type": "generated", "format": "float", "is_ips_inferred": true, "is_static_object": false } ],
+            "CLK_DOMAIN": [ { "value": "axi_block_clk", "value_src": "default_prop", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_PORT": [ { "value": "", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "CLK": [ { "physical_name": "s_axi_aclk" } ]
+          }
+        },
+        "s_axi_aresetn": {
+          "vlnv": "xilinx.com:signal:reset:1.0",
+          "abstraction_type": "xilinx.com:signal:reset_rtl:1.0",
+          "mode": "slave",
+          "parameters": {
+            "POLARITY": [ { "value": "ACTIVE_LOW", "value_src": "constant", "value_permission": "bd", "usage": "all" } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "RST": [ { "physical_name": "s_axi_aresetn" } ]
+          }
+        },
+        "CAN_INTERFACE": {
+          "vlnv": "xilinx.com:interface:can:1.0",
+          "abstraction_type": "xilinx.com:interface:can_rtl:1.0",
+          "mode": "master",
+          "port_maps": {
+            "RX": [ { "physical_name": "can_phy_rx" } ],
+            "TX": [ { "physical_name": "can_phy_tx" } ]
+          }
+        },
+        "can_clk_i": {
+          "vlnv": "xilinx.com:signal:clock:1.0",
+          "abstraction_type": "xilinx.com:signal:clock_rtl:1.0",
+          "mode": "slave",
+          "parameters": {
+            "ASSOCIATED_BUSIF": [ { "value": "CAN_INTERFACE", "value_src": "constant", "value_permission": "bd", "usage": "all" } ],
+            "FREQ_HZ": [ { "value": "80000000", "value_src": "ip_propagated", "value_permission": "bd", "resolve_type": "user", "format": "long", "usage": "all" } ],
+            "FREQ_TOLERANCE_HZ": [ { "value": "0", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "PHASE": [ { "value": "0.0", "value_src": "ip_propagated", "value_permission": "bd", "resolve_type": "generated", "format": "float", "is_ips_inferred": true, "is_static_object": false } ],
+            "CLK_DOMAIN": [ { "value": "/clk_wiz_0_clk_out1", "value_src": "ip_propagated", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_PORT": [ { "value": "", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_RESET": [ { "value": "", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "CLK": [ { "physical_name": "can_clk" } ]
+          }
+        },
+        "can_clk_x2_i": {
+          "vlnv": "xilinx.com:signal:clock:1.0",
+          "abstraction_type": "xilinx.com:signal:clock_rtl:1.0",
+          "mode": "slave",
+          "parameters": {
+            "FREQ_HZ": [ { "value": "160000000", "value_src": "ip_propagated", "value_permission": "bd", "resolve_type": "user", "format": "long", "usage": "all" } ],
+            "FREQ_TOLERANCE_HZ": [ { "value": "0", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "PHASE": [ { "value": "0.0", "value_src": "ip_propagated", "value_permission": "bd", "resolve_type": "generated", "format": "float", "is_ips_inferred": true, "is_static_object": false } ],
+            "CLK_DOMAIN": [ { "value": "/clk_wiz_0_clk_out1", "value_src": "ip_propagated", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_BUSIF": [ { "value": "", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_PORT": [ { "value": "", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "ASSOCIATED_RESET": [ { "value": "", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
+            "INSERT_VIP": [ { "value": "0", "resolve_type": "user", "format": "long", "usage": "simulation.rtl", "is_ips_inferred": true, "is_static_object": false } ]
+          },
+          "port_maps": {
+            "CLK": [ { "physical_name": "can_clk_x2" } ]
+          }
+        }
+      },
+      "memory_maps": {
+        "S_APB_LITE": {
+          "display_name": "CANFD_MEM",
+          "description": "Memory Map for CANFD",
+          "address_blocks": {
+            "Reg": {
+              "base_address": "0",
+              "range": "32768",
+              "display_name": "Reg",
+              "description": "Register Block",
+              "usage": "register",
+              "access": "read-write",
+              "registers": {
+                "SRR": {
+                  "address_offset": "0x0000",
+                  "size": 32,
+                  "display_name": "Software Reset Register",
+                  "description": "Software Reset Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "SRST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Software Reset",
+                      "description": "The software reset bit for the core.\n1 - core is reset.\nIf a 1 is written to this bit, all the core configuration registers (including the SRR) are reset.\nReads to this bit always return a 0.\nNote - After performing soft or hard reset, wait for 8 AXI Clock cycles before initiating next AXILite transaction.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "CEN": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "CAN Enable",
+                      "description": "The Enable bit for the core.\n1 - The core is in Loopback, Sleep, Snoop or Normal mode depending on the LBACK, SLEEP and SNOOP bits in the MSR.\n0 - The core is in the Configuration mode.\nNote - If the CEN bit is changed during core operation, it is recommended to reset the core so that operations start afresh.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "MSR": {
+                  "address_offset": "0x0004",
+                  "size": 32,
+                  "display_name": "Mode Select Register",
+                  "description": "Mode Select Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "SLEEP": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Sleep Mode Select/Request",
+                      "description": "The Sleep Mode request bit.\n1 - Request core to be in Sleep mode.\n0 - No such request.\nThis bit is cleared when the core wakes up from the Sleep mode.\nIn order for core to enter Sleep mode, LBACK and SNOOP bits in this register should be set to '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "LBACK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Loop Back Mode Select/Request",
+                      "description": "The Loop Back Mode Request bit.\n1 - Request core to be in Loop Back mode.\n0 - No such request.\nThis bit can be written to only when CEN bit in SRR is '0.'\nIn order for core to enter LBACK mode, SLEEP and SNOOP bits in this register should be set to '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "SNOOP": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "SNOOP Mode Select",
+                      "description": "The Snoop Mode Request bit.\n1 - Request core to be in Snoop mode.\n0 - No such request.\nThis bit can be written only when CEN bit in SRR is '0'.\nThe user has to make sure that SNOOP mode is programmed only after system reset or software reset.\nIn order for core to enter Snoop mode, LBACK and SLEEP bits in this register should be set to '0'.\nThe features of Snoop mode are      Core transmits recessive bits on to CAN bus     Receives messages that are transmitted by other nodes but does not ACK. Stores received messages in RxBRAM based on programmed ID filtering.     Error counters are disabled and cleared to 0. Reads to error counter register will return zero.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "BRSD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "CANFD Bit Rate Switch Disable Override",
+                      "description": "1 - Makes core transmit CANFD frames only in nominal bit rate (by overriding Tx Message element setting).\n0 - Makes core transmit CANFD frames as per BRS bit in TX Message element.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DAR": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "Disable Auto Retransmission",
+                      "description": "1 - Disable Auto retransmission to provide single shot transmission.\n0 - Auto retransmission enabled.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DPEE": {
+                      "bit_offset": 5,
+                      "bit_width": 1,
+                      "display_name": "Disable Protocol Exception Event detection/generation",
+                      "description": "1 - Disable Protocol Exception Event detection/generation by CANFD receiver if \"res\" bit in CANFD frame is detected as 1. \nIn this case, CANFD receiver will generate Form error.\n0 - PEE detection/generation is enabled.  If CANFD receiver detects \"res\" bit as 1, it will go to Bus Integration\nstate (PEE_config) and waits for Bus Idle condition (11 consecutive nominal recessive bits). Error counter remains unchanged.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "SBR": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Start Bus-Off Recovery Request",
+                      "description": "1 - Start Bus-off Recovery Request.\n0 - No such request.\nNode stays in Bus-off state until SBR bit is set to '1' (provided ABR bit in this register is not set).\nThis bit can be written only when node is in Bus-off state. \nThis bit auto clears after node completes the bus-off recovery or leave bus-off state due to hard/soft reset or CEN de-assertion. \n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ABR": {
+                      "bit_offset": 7,
+                      "bit_width": 1,
+                      "display_name": "Auto Bus-Off Recovery Request",
+                      "description": "1 - Auto Bus-off Recovery Request.\n0 - No such request.\nIf this bit is set, node do auto bus-off recovery irrespective of SBR setting in this register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "NBRPR": {
+                  "address_offset": "0x0008",
+                  "size": 32,
+                  "display_name": "Nominal Baud Rate Prescalar Register",
+                  "description": "Nominal Baud Rate Prescalar Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "BRP": {
+                      "bit_offset": 0,
+                      "bit_width": 8,
+                      "display_name": "Nomunal Baud Rate Prescalar",
+                      "description": "These bits indicate the prescaler value. \nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "NBTR": {
+                  "address_offset": "0x000C",
+                  "size": 32,
+                  "display_name": "Nominal Bit Timing Register",
+                  "description": "Nominal Bit Timing Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "TS1": {
+                      "bit_offset": 0,
+                      "bit_width": 6,
+                      "display_name": "Timing Segement1",
+                      "description": "Indicates the Sum of Propagation Segment and Phase Segment 1 as specified in the standard for Nominal Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "TS2": {
+                      "bit_offset": 8,
+                      "bit_width": 4,
+                      "display_name": "Timing Segement2",
+                      "description": "Indicates the Phase Segment 2 as specified in the CANFD standard for Nominal Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "SJW": {
+                      "bit_offset": 16,
+                      "bit_width": 4,
+                      "display_name": "Synchronization Jump Width",
+                      "description": "Indicates the Synchronization Jump Width as specified in the CANFD standard for Nominal Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "ECR": {
+                  "address_offset": "0x0010",
+                  "size": 32,
+                  "display_name": "Error Count Register",
+                  "description": "Error Count Register",
+                  "is_volatile": true,
+                  "access": "read-only",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "TEC": {
+                      "bit_offset": 0,
+                      "bit_width": 8,
+                      "display_name": "Transmit Error Count",
+                      "description": "Indicates the value of Transmit Error Counter.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "REC": {
+                      "bit_offset": 8,
+                      "bit_width": 8,
+                      "display_name": "Recieve Error Count",
+                      "description": "Indicates the value of Recieve Error Counter.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "ESR": {
+                  "address_offset": "0x0014",
+                  "size": 32,
+                  "display_name": "Error Status Register",
+                  "description": "Error Status Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CRCER": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "CRC Error",
+                      "description": "Indicates a CRC error has occurred.\n1 - Indicates a CRC error has occurred.\n0 - Indicates a CRC error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "FMER": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Form Error",
+                      "description": "Indicates an error in one of the fixed form fields in the message frame.\n1 - Indicates a form error has occurred.\n0 - Indicates a form error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "STER": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Stuff Error",
+                      "description": "Indicates an error if there is a stuffing violation.\n1 - Indicates a stuff error has occurred.\n0 - Indicates a stuff error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "BERR": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Bit Error",
+                      "description": "Indicates the received bit is not the same as the transmitted bit during bus communication.\n1 - Indicates a bit error has occurred.\n0 - Indicates a bit error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ACKER": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "ACK Error",
+                      "description": "Indicates an acknowledgement error.\n1 - Indicates an acknowledgement error has occurred.\n0 - Indicates an acknowledgement error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_CRCER": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "CRC Error Status in Fast Data Rate",
+                      "description": "1 - Indicates CRC error occurred in Data  Phase (Fast) data rate\n0 - Indicates CRC error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_FMER": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Form Error Status in Fast Data Rate",
+                      "description": "1 - Indicates form error occurred in Data Phase (Fast) data rate\n0 - Indicates form error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_STER": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Stuff Error Status in Fast Data Rate",
+                      "description": "1 - Indicates stuff error occurred in Data Phase (Fast) data rate\n0 - Indicates stuff error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_BERR": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Bit Error Status in Fast Data Rate",
+                      "description": "1 - Indicates bit error occurred in Data Phase (Fast) data rate.\n0 - Indicates bit error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "SR": {
+                  "address_offset": "0x0018",
+                  "size": 32,
+                  "display_name": "Status Register",
+                  "description": "Status Register",
+                  "is_volatile": true,
+                  "access": "read-only",
+                  "reset_value": "0x1",
+                  "fields": {
+                    "CONFIG": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Configuration Mode Indicator",
+                      "description": "Indicates the core is in Configuration mode.\n1 - Indicates the core is in Configuration mode.\n0 - Indicates the core is not in Configuration mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "LBACK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Loop Back Mode",
+                      "description": "Indicates the core is in Loopback mode.\n1 - Indicates the core is in Loopback mode.\n0 - Indicates the core is not in Loopback mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "SLEEP": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Sleep Mode",
+                      "description": "Indicates the core is in Sleep mode.\n1 - Indicates the core is in Sleep mode.\n0 - Indicates the core is not in Sleep mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "NORMAL": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Normal Mode",
+                      "description": "Indicates the core is in Normal Mode.\n1 - Indicates the core is in Normal Mode.\n0 - Indicates the core is not in Normal mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BIDLE": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "Bus Idle",
+                      "description": "Indicates the CAN bus status.\n1 - Indicates no bus communication is taking place.\n0 - Indicates the core is either in Configuration mode or the bus is busy.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BBSY": {
+                      "bit_offset": 5,
+                      "bit_width": 1,
+                      "display_name": "BBSY",
+                      "description": "Indicates the CAN bus status.\n1 - Indicates that the core is either receiving a message or transmitting a message.\n0 - Indicates that the core is either in Configuration mode or the bus is idle.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "ERRWRN": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "ERRWRN",
+                      "description": "Indicates that either the Transmit Error counter or the Receive Error counter has exceeded a value of 96.\n1 - One or more error counters have a value 96.\n0 - Neither of the error counters has a value 96.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "ESTAT": {
+                      "bit_offset": 7,
+                      "bit_width": 2,
+                      "display_name": "Error Status",
+                      "description": "Indicates the error status of the core.\n00 - Indicates Configuration Mode (CONFIG = 1). Error State is undefined.\n01 - Indicates Error Active State.\n11 - Indicates Error Passive State.\n10 - Indicates Bus Off State.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "PEECONFIG": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "PEE Mode Indicator",
+                      "description": "1 - Indicates the core is in PEE Mode (Bus Integration State).\nWhen this bit is set then BBSY and NORMAL status bits in SR register does not mean anything.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BSFR_CONFIG": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Bus-off Recovery Mode Indicator",
+                      "description": "1 - Indicates the core is in Bus-off Recovery Mode (Bus Integration State)\nWhen this bit is set then BBSY and NORMAL status bits in SR register does not mean anything.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "NISO": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Non-ISO Core",
+                      "description": "1 - Core is NISO (generated with C_IS_NISO = 1)\n0 - Core is ISO (generated with C_IS_NISO = 0)\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "SNOOP": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "SNOOP Mode",
+                      "description": "1 - Indicates controller is in Snoop mode provided Normal mode bit is also set in this register.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TDCV": {
+                      "bit_offset": 16,
+                      "bit_width": 7,
+                      "display_name": "Transceiver Delay Compensation value",
+                      "description": "This field gives the position of secondary sample point (defined as sum of TDCOFF and measured delay  \nfor EDL to r0 fall edge from TX to RX) in CAN clocks. \nThis field is for status purpose.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "ISR": {
+                  "address_offset": "0x001C",
+                  "size": 32,
+                  "display_name": "Interrupt Status Register",
+                  "description": "Interrupt Status Register",
+                  "is_volatile": true,
+                  "access": "read-only",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "ARBLST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Arbitration Lost Interrupt",
+                      "description": "1 - indicates that arbitration was lost during message transmission.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TXOK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Transmission Successful Interrupt",
+                      "description": "1 - indicates that a message was transmitted successfully.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "PEE": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Protocol Exception Event Interrupt",
+                      "description": "1 - indicates that the core (CANFD) has detected PEE event.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BSFRD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Bus-Off Recovery Done Interrupt",
+                      "description": "1 - indicates that the core recovered from Bus Off state.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXOK": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "New Message Recieved Interrupt",
+                      "description": "1 - indicates that a message was received successfully and stored into the RX FIFO.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXFOFLW": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Rx  FIFO Overflow interrupt (FIFO mode)",
+                      "description": "1 - Indicates that a message has been lost. This condition occurs when a new message is being received and the Receive FIFO is Full.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR only valid in FIFO Mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "ERROR": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "Error Interrupt",
+                      "description": "1 - indicates that an error occurred during message transmission or reception.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BSOFF": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Bus Off Interrupt",
+                      "description": "1 - indicates that the core entered the Bus Off state.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "SLP": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Sleep Interrupt",
+                      "description": "1 - indicates that the CAN core entered Sleep mode.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "WKUP": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Wakeup Interrupt",
+                      "description": "1 - indicates that the core entered Normal mode from Sleep Mode\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXFWMFLL": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "Rx FIFO Watermark Full interrupt (FIFO mode)",
+                      "description": "1 - Indicates that Rx FIFO is full based on watermark programming.\nThe interrupt continues to assert as long as the RX FIFO count is above RX FIFO Full watermark.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TXRRS": {
+                      "bit_offset": 13,
+                      "bit_width": 1,
+                      "display_name": "Tx Buffer Ready Request Served Interrupt",
+                      "description": "1 - Indicates that a Buffer Ready request was cleared.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TXCRS": {
+                      "bit_offset": 14,
+                      "bit_width": 1,
+                      "display_name": "Tx Cancellation Request Served Interrupt",
+                      "description": "1 - Indicates that a Cancellation request was cleared.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXRBF": {
+                      "bit_offset": 15,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Bull Interrupt (Mailbox mode)",
+                      "description": "1 - Indicates that a receive buffer has received a message and become full.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXBOFLW": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Overflow interrupt (Mailbox mode)",
+                      "description": "1 - Indicates that a message has been lost due to buffer condition. Buffer index is captured in RXBOFLW_BI field.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXMNF": {
+                      "bit_offset": 17,
+                      "bit_width": 1,
+                      "display_name": "Rx Match Not Finished",
+                      "description": "1 - Indicates that Match process did not finish until the start of 6th Bit in EOF field and frame was discarded.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXLRM_BI": {
+                      "bit_offset": 18,
+                      "bit_width": 6,
+                      "display_name": "Rx Buffer Index for Last Received  message (Mailbox mode)",
+                      "description": "Gives Rx Buffer index for last received message.\nThis field has meaning only if RXOK bit is set in this register.\nThis field is cleared at hard/soft reset or when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXBOFLW_BI": {
+                      "bit_offset": 24,
+                      "bit_width": 6,
+                      "display_name": "Rx Buffer index for Overflow interrupt (Mailbox mode)",
+                      "description": "Gives Rx Buffer index for which overflow event is generated.\nThis field is automatically cleared to default if RXBOFLW bit is cleared in this register.\nIn case more than one overflow event happens (before host could clear RXBOFLW), RXBOFLW_BI will show overflow index for the last event.\nThis field has meaning only if Overflow interrupt RXBOFLW bit is set.\nThis field is also cleared at hard/soft reset or when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "IER": {
+                  "address_offset": "0x0020",
+                  "size": 32,
+                  "display_name": "Interrupt Enable Register",
+                  "description": "Interrupt Enable Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "EARBLOST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Arbitration Lost Interrupt Enable",
+                      "description": "1 - Enable interrupt generation if ARBLST bit in ISR is set.\n0 - Disable interrupt generation if ARBLST bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ETXOK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Transmission successful interrupt enable",
+                      "description": "1 = Enable interrupt generation if TXOK bit in ISR is set.\n0 = Disable interrupt generation if TXOK bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EPEE": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Protocol Exception Event interrupt enable",
+                      "description": "Protocol Exception Event interrupt enable\n1 - Enable interrupt generation if PEE bit in ISR is set.\n0 - Disable interrupt generation if PEE bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EBSFRD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Bus-off Recovery Done interrupt enable",
+                      "description": "Bus-off Recovery Done interrupt enable\n1 - Enable interrupt generation if BSFRD bit in ISR is set.\n0 - Disable interrupt generation if BSFRD bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXOK": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "New message Received interrupt enable",
+                      "description": "New message Received interrupt enable\n1 - Enable interrupt generation if RXOK bit in ISR is set.\n0 - Disable interrupt generation if RXOK bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERFXOFLW": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Rx FIFO Overflow interrupt Enable (FIFO Mode)",
+                      "description": "1 - Enable interrupt generation if RFXOFLW bit in ISR is set.\n0 - Disable interrupt generation if RFXOFLW bit in ISR is set.\nOnly valid in FIFO Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EERROR": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "Error interrupt enable",
+                      "description": "Error interrupt enable\n1 - Enable interrupt generation if ERROR bit in ISR is set.\n0 - Disable interrupt generation if ERROR bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EBSOFF": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Bus OFF interrupt enable",
+                      "description": "1 - Enable interrupt generation if BSOFF bit in ISR is set.\n0 - Disable interrupt generation if BSOFF bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ESLP": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Sleep interrupt enable",
+                      "description": "1 - Enable interrupt generation if SLP bit in ISR is set.\n0 - Disable interrupt generation if SLP bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EWKUP": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Wakeup interrupt enable",
+                      "description": "Wakeup interrupt enable\n1 - Enable interrupt generation if WKUP bit in ISR is set.\n0 - Disable interrupt generation if WKUP bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXFWMFLL": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "Rx  FIFO Watermark Full interrupt Enable (FIFO Mode)",
+                      "description": "1 - Enable interrupt generation if RXFWMFLL bit in ISR is set.\n0 - Disable interrupt generation if RXFWMFLL bit in ISR is set.\nOnly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ETXRRS": {
+                      "bit_offset": 13,
+                      "bit_width": 1,
+                      "display_name": "Tx Buffer Ready Request Served Interrupt Enable",
+                      "description": "Tx Buffer Ready Request Served Interrupt Enable\n1 - Enable interrupt generation if TXRRS bit in ISR is set.\n0 - Disable interrupt generation if TXRRS bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ETXCRS": {
+                      "bit_offset": 14,
+                      "bit_width": 1,
+                      "display_name": "Tx Cancellation Request Served Interrupt Enable",
+                      "description": "1 - Enable interrupt generation if TXCRS bit in ISR is set.\n0 - Disable interrupt generation if TXCRS bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXRBF": {
+                      "bit_offset": 15,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Bull Interrupt Enable (Mailbox mode)",
+                      "description": "1 - Enable interrupt generation if RXRBF bit in ISR is set.\n0 - Disable interrupt generation if RXRBF bit in ISR is set.\nOnly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXBOFLW": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Overflow interrupt Enable (Mailbox mode)",
+                      "description": "1 = Enable interrupt generation if RXBOFLW bit in ISR is set.\n0 = Disable interrupt generation if RXBOFLW bit in ISR is set.\nOnly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXMNF": {
+                      "bit_offset": 17,
+                      "bit_width": 1,
+                      "display_name": "Rx Match Not Finished interrupt Enable",
+                      "description": "1 - Enable interrupt generation if RXMNF bit in ISR is set.\n0 - Disable interrupt generation if RXMNF bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "ICR": {
+                  "address_offset": "0x0024",
+                  "size": 32,
+                  "display_name": "Interrupt Clear Register",
+                  "description": "Interrupt Clear Register",
+                  "is_volatile": true,
+                  "access": "write-only",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CARBLOST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Clear Arbitration lost interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CTXOK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Clear Transmission successful interrupt",
+                      "description": "1 - Clear Transmission successful interrupt.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CPEE": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Clear Protocol Exception Event interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CBSFRD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Clear Bus-off Recovery Done interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXOK": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "Clear New message Received interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRFXOFLW": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx FIFO Overflow interrupt (FIFO Mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nonly valid in FIFO Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CERROR": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "Clear Error interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CBSOFF": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Clear Bus OFF interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CSLP": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Clear Sleep interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CWKUP": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Clear Wakeup interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXFWMFLL": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx  FIFO Watermark Full interrupt (FIFO Mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nOnly valid in FIFO Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CTXRRS": {
+                      "bit_offset": 13,
+                      "bit_width": 1,
+                      "display_name": "Clear Tx Buffer Ready Request Served Interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CTXCRS": {
+                      "bit_offset": 14,
+                      "bit_width": 1,
+                      "display_name": "Clear Tx Cancellation Request Served Interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXRBF": {
+                      "bit_offset": 15,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx Buffer Full Interrupt (Mailbox mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nonly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXBOFLW": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx Buffer Overflow interrupt (Mailbox mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nonly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXMNF": {
+                      "bit_offset": 17,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx Match Not Finished interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    }
+                  }
+                },
+                "TSR": {
+                  "address_offset": "0x0028",
+                  "size": 32,
+                  "display_name": "Time Stamp Register",
+                  "description": "Time Stamp Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CTS": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Clear TimeStamp Counter",
+                      "description": "Internal free running counter is cleared to 0 when CTS=1. \nThis bit only needs to be written once with a '1' to clear the counter. \nThe bit will always read as '0'.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "TIMESTAMP_CNT": {
+                      "bit_offset": 16,
+                      "bit_width": 16,
+                      "display_name": "Time Stamp Counter Value",
+                      "description": "This Status field gives running value of the time stamp counter. \nThis  field is cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "DPBRPR": {
+                  "address_offset": "0x0088",
+                  "size": 32,
+                  "display_name": "Data Phase Baud Rate Prescalar Register",
+                  "description": "Data Phase Baud Rate Prescalar Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "DP_BRP": {
+                      "bit_offset": 0,
+                      "bit_width": 8,
+                      "display_name": "Data Phase Baud Rate Prescaler",
+                      "description": "These bits indicate the prescaler value for Data Bit Timing as specified in the CANFD standard.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "TDCOFF": {
+                      "bit_offset": 8,
+                      "bit_width": 5,
+                      "display_name": "Transceiver Delay Compensation Offset",
+                      "description": "This offset is specified in CAN clock cycles and is added to the measured transnitter delay to place the Secondary Sample Point (SSP) at appropriate position (for ex. set this to half data bit time in terms of CAN clock cycles to place SSP in the middle of the data bit).\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "TDC": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Transceiver Delay Compensation(TDC) Enable",
+                      "description": "1 - Enables TDC function as specified in the CANFD standard\n0 - TDC is disabled\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "DPBTR": {
+                  "address_offset": "0x008C",
+                  "size": 32,
+                  "display_name": "Data Phase Bit Timing Register",
+                  "description": "Data Phase Bit Timing Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "DP_TS1": {
+                      "bit_offset": 0,
+                      "bit_width": 4,
+                      "display_name": "Data Phase Time Segment1",
+                      "description": "Indicates the Sum of Propagation Segment and Phase Segment 1 as specified in the CANFD standard for Data Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DP_TS2": {
+                      "bit_offset": 8,
+                      "bit_width": 3,
+                      "display_name": "Data Phase Time Segment2",
+                      "description": "Indicates the Phase Segment 2 as specified in the CANFD standard for Data Bit Timing. \nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DP_SJW": {
+                      "bit_offset": 16,
+                      "bit_width": 3,
+                      "display_name": "Data Phase Synchronization Jump Width",
+                      "description": "Indicates the Synchronization Jump Width as specified in the CANFD standard for Data Bit Timing. \nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "TRR": {
+                  "address_offset": "0x0090",
+                  "size": 32,
+                  "display_name": "Tx Buffer Ready Request Register",
+                  "description": "Tx Buffer Ready Request Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "RR": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer Ready Request",
+                      "description": "This is control bit corresponds to TBi message in Tx BRAM.\nHost writes 1 to indicate buffer is ready for transmission. Core clears this bit when   Buffer transmission is completed on CAN Bus or   If core is in DAR mode, then after one transmission attempt on CAN bus [either successful or unsuccessful (i.e. arbitration lost or error)] or   If message is cancelled due to cancellation request or   Any combination of Above Host writes are ignored when this bit is 1.\nNote - This register remains in reset when SNOOP mode is enabled.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "IETRS": {
+                  "address_offset": "0x0094",
+                  "size": 32,
+                  "display_name": "Interrupt Enable Tx Buffer Ready Request Served/Cleared Register",
+                  "description": "Interrupt Enable Tx Buffer Ready Request Served/Cleared Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "ERRS": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer_i Ready Req Served/Cleared Interrupt Enable",
+                      "description": "1 - Enables setting TXRRS bit in ISR when RRi bit in TRR register clears.\n0 - TXRRS bit in ISR will not set if  RRi bit in TRR register clears.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "TCR": {
+                  "address_offset": "0x0098",
+                  "size": 32,
+                  "display_name": "Tx Buffer Cancellation Request Register",
+                  "description": "Tx Buffer Cancellation Request Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CR": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer_0 Cancel Request",
+                      "description": "This is cancellation request bit corresponds to RR0 bit in TRR register.\nHost writes 1 to indicate cancellation request of corresponding buffer ready request (i.e. RR0 bit in TRR register). Core clears this bit when cancellation request is completed. \nHost writes to this bit are ignored if CR0 is 1 or RR0 bit of TRR register is 0.\nIf the buffer is already locked for transmission by Transfer Layer then cancellation is performed at the end of transmission cycle irrespective whether frame transmitted successfully or failed\ni.e. if message is failed due to arbitration loss or any error, then message will be cancelled (no retransmission attempt) and cancellation request will be cleared. Alongwith RR0 bit will get cleared.\nIf message is transmitted successfully, then RR0 bit will clear and cancellation request will be cleared anyway.\nNote : If internal buffer scheduling round is in progress, then cancellation consideration is postponed till it is over.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "IETCS": {
+                  "address_offset": "0x009C",
+                  "size": 32,
+                  "display_name": "Interrupt Enable Tx Buffer Cancellation Request Served/Cleared Register",
+                  "description": "Interrupt Enable Tx Buffer Cancellation Request Served/Cleared Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "ECRS": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer_0 Transmission Served/Cleared Interrupt Enable",
+                      "description": "1 - Enables setting TXCRS bit in ISR when CR0 bit in TCS register clears.\n0 - TXCRS bit in ISR will not set if  CR0 bit in TRR register clears.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "AFR": {
+                  "address_offset": "0x00E0",
+                  "size": 32,
+                  "display_name": "Acceptance Filter(control) Register",
+                  "description": "Acceptance Filter(control) Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "UAF": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Use Acceptance Filter Mask pair 1",
+                      "description": "Enables the use of acceptance filter mask pair i.\n1 - Indicates Acceptance Filter Mask Register 0 (AFMR0 or M0) and Acceptance Filter ID Register 0 (AFID0 or F0) pair is used for acceptance filtering.\n0 - Indicates AFMR0 and AFID0 pair is not used for acceptance filtering.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "FSR": {
+                  "address_offset": "0x00E8",
+                  "size": 32,
+                  "display_name": "Rx FIFO Status Register",
+                  "description": "Rx FIFO Status Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "RI": {
+                      "bit_offset": 0,
+                      "bit_width": 5,
+                      "display_name": "Read Index",
+                      "description": "Each time IRI bit is set, core increments read index by +1 (provided FILL level is not 0) and maintained it for Host to access \nnext available message.\nRI = 0x0 -> Next message read starts from location = 0x1100 (to 0x1147)\nRI = 0x1 -> Next message read starts from location = 0x1148 (to 0x118F)...\nRI = 0x1F -> Next message read starts from location = 0x19B8 (to 0x19FF)\nRI is maintained if CEN bit is cleared.\nRI gets reset to 0 if soft or hard reset is asserted.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "IRI": {
+                      "bit_offset": 7,
+                      "bit_width": 1,
+                      "display_name": "Increment Read Index by 1",
+                      "description": "With each Host writes setting this bit as 1, core increments Read index (RI field) by 1 and update fill level (i.e. decrement  by 1).\nIf FILL level is 0, setting this bit has no effect. Note that FILL level may remain unchanged when IRI is written if core is just finishing a successful receive and incrementing internal write index.\nThis bit always read as 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "FL": {
+                      "bit_offset": 8,
+                      "bit_width": 6,
+                      "display_name": "Fill Level",
+                      "description": "Number of stored message in Receive FIFO starting from RI index given in this register.\nFor example, if FL = 0x5 and RI = 0x3 then Rx FIFO has 5 messages starting from Read Index 3 (Start address 0x1190).\nFL is maintained if CEN bit is cleared.\nFL gets reset to 0 if soft or hard reset is asserted.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "WMR": {
+                  "address_offset": "0x00EC",
+                  "size": 32,
+                  "display_name": "Rx FIFO Watermark Register",
+                  "description": "Rx FIFO Watermark Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0xf",
+                  "fields": {
+                    "RXFWM": {
+                      "bit_offset": 0,
+                      "bit_width": 5,
+                      "display_name": "Rx FIFO Full Watermark",
+                      "description": "RXFIFO generates FULL interrupt based on the value programmed in this field.\nUser should set it within (1-31) range. \nThe RX FIFO Full Watermark interrupt in ISR register continues to assert as long as the RX FIFO Fill Level is above RX FIFO Full watermark.\nThis field can be written to only when CEN bit in SRR is '0'\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "TX_BUFFER_START": {
+                  "address_offset": "0x0100",
+                  "size": 32,
+                  "display_name": "Tx Buffer Start Address",
+                  "description": "Tx Buffer Start Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                },
+                "TX_BUFFER_END": {
+                  "address_offset": "0x09FC",
+                  "size": 32,
+                  "display_name": "Tx Buffer End Address",
+                  "description": "Tx Buffer End Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                },
+                "RX_BUFFER_START": {
+                  "address_offset": "0x1100",
+                  "size": 32,
+                  "display_name": "Rx Buffer Start Address",
+                  "description": "Rx Buffer Start Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                },
+                "RX_BUFFER_END_F": {
+                  "address_offset": "0x19FC",
+                  "size": 32,
+                  "display_name": "Rx Buffer End Address",
+                  "description": "Rx Buffer End Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                }
+              }
+            }
+          }
+        },
+        "S_AXI_LITE": {
+          "display_name": "CANFD_MEM",
+          "description": "Memory Map for CANFD",
+          "address_blocks": {
+            "Reg": {
+              "base_address": "0",
+              "range": "32768",
+              "display_name": "Reg",
+              "description": "Register Block",
+              "usage": "register",
+              "access": "read-write",
+              "registers": {
+                "SRR": {
+                  "address_offset": "0x0000",
+                  "size": 32,
+                  "display_name": "Software Reset Register",
+                  "description": "Software Reset Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "SRST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Software Reset",
+                      "description": "The software reset bit for the core.\n1 - core is reset.\nIf a 1 is written to this bit, all the core configuration registers (including the SRR) are reset.\nReads to this bit always return a 0.\nNote - After performing soft or hard reset, wait for 8 AXI Clock cycles before initiating next AXILite transaction.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "CEN": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "CAN Enable",
+                      "description": "The Enable bit for the core.\n1 - The core is in Loopback, Sleep, Snoop or Normal mode depending on the LBACK, SLEEP and SNOOP bits in the MSR.\n0 - The core is in the Configuration mode.\nNote - If the CEN bit is changed during core operation, it is recommended to reset the core so that operations start afresh.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "MSR": {
+                  "address_offset": "0x0004",
+                  "size": 32,
+                  "display_name": "Mode Select Register",
+                  "description": "Mode Select Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "SLEEP": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Sleep Mode Select/Request",
+                      "description": "The Sleep Mode request bit.\n1 - Request core to be in Sleep mode.\n0 - No such request.\nThis bit is cleared when the core wakes up from the Sleep mode.\nIn order for core to enter Sleep mode, LBACK and SNOOP bits in this register should be set to '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "LBACK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Loop Back Mode Select/Request",
+                      "description": "The Loop Back Mode Request bit.\n1 - Request core to be in Loop Back mode.\n0 - No such request.\nThis bit can be written to only when CEN bit in SRR is '0.'\nIn order for core to enter LBACK mode, SLEEP and SNOOP bits in this register should be set to '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "SNOOP": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "SNOOP Mode Select",
+                      "description": "The Snoop Mode Request bit.\n1 - Request core to be in Snoop mode.\n0 - No such request.\nThis bit can be written only when CEN bit in SRR is '0'.\nThe user has to make sure that SNOOP mode is programmed only after system reset or software reset.\nIn order for core to enter Snoop mode, LBACK and SLEEP bits in this register should be set to '0'.\nThe features of Snoop mode are      Core transmits recessive bits on to CAN bus     Receives messages that are transmitted by other nodes but does not ACK. Stores received messages in RxBRAM based on programmed ID filtering.     Error counters are disabled and cleared to 0. Reads to error counter register will return zero.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "BRSD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "CANFD Bit Rate Switch Disable Override",
+                      "description": "1 - Makes core transmit CANFD frames only in nominal bit rate (by overriding Tx Message element setting).\n0 - Makes core transmit CANFD frames as per BRS bit in TX Message element.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DAR": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "Disable Auto Retransmission",
+                      "description": "1 - Disable Auto retransmission to provide single shot transmission.\n0 - Auto retransmission enabled.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DPEE": {
+                      "bit_offset": 5,
+                      "bit_width": 1,
+                      "display_name": "Disable Protocol Exception Event detection/generation",
+                      "description": "1 - Disable Protocol Exception Event detection/generation by CANFD receiver if \"res\" bit in CANFD frame is detected as 1. \nIn this case, CANFD receiver will generate Form error.\n0 - PEE detection/generation is enabled.  If CANFD receiver detects \"res\" bit as 1, it will go to Bus Integration\nstate (PEE_config) and waits for Bus Idle condition (11 consecutive nominal recessive bits). Error counter remains unchanged.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "SBR": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Start Bus-Off Recovery Request",
+                      "description": "1 - Start Bus-off Recovery Request.\n0 - No such request.\nNode stays in Bus-off state until SBR bit is set to '1' (provided ABR bit in this register is not set).\nThis bit can be written only when node is in Bus-off state. \nThis bit auto clears after node completes the bus-off recovery or leave bus-off state due to hard/soft reset or CEN de-assertion. \n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ABR": {
+                      "bit_offset": 7,
+                      "bit_width": 1,
+                      "display_name": "Auto Bus-Off Recovery Request",
+                      "description": "1 - Auto Bus-off Recovery Request.\n0 - No such request.\nIf this bit is set, node do auto bus-off recovery irrespective of SBR setting in this register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "NBRPR": {
+                  "address_offset": "0x0008",
+                  "size": 32,
+                  "display_name": "Nominal Baud Rate Prescalar Register",
+                  "description": "Nominal Baud Rate Prescalar Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "BRP": {
+                      "bit_offset": 0,
+                      "bit_width": 8,
+                      "display_name": "Nomunal Baud Rate Prescalar",
+                      "description": "These bits indicate the prescaler value. \nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "NBTR": {
+                  "address_offset": "0x000C",
+                  "size": 32,
+                  "display_name": "Nominal Bit Timing Register",
+                  "description": "Nominal Bit Timing Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "TS1": {
+                      "bit_offset": 0,
+                      "bit_width": 6,
+                      "display_name": "Timing Segement1",
+                      "description": "Indicates the Sum of Propagation Segment and Phase Segment 1 as specified in the standard for Nominal Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "TS2": {
+                      "bit_offset": 8,
+                      "bit_width": 4,
+                      "display_name": "Timing Segement2",
+                      "description": "Indicates the Phase Segment 2 as specified in the CANFD standard for Nominal Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "SJW": {
+                      "bit_offset": 16,
+                      "bit_width": 4,
+                      "display_name": "Synchronization Jump Width",
+                      "description": "Indicates the Synchronization Jump Width as specified in the CANFD standard for Nominal Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "ECR": {
+                  "address_offset": "0x0010",
+                  "size": 32,
+                  "display_name": "Error Count Register",
+                  "description": "Error Count Register",
+                  "is_volatile": true,
+                  "access": "read-only",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "TEC": {
+                      "bit_offset": 0,
+                      "bit_width": 8,
+                      "display_name": "Transmit Error Count",
+                      "description": "Indicates the value of Transmit Error Counter.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "REC": {
+                      "bit_offset": 8,
+                      "bit_width": 8,
+                      "display_name": "Recieve Error Count",
+                      "description": "Indicates the value of Recieve Error Counter.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "ESR": {
+                  "address_offset": "0x0014",
+                  "size": 32,
+                  "display_name": "Error Status Register",
+                  "description": "Error Status Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CRCER": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "CRC Error",
+                      "description": "Indicates a CRC error has occurred.\n1 - Indicates a CRC error has occurred.\n0 - Indicates a CRC error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "FMER": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Form Error",
+                      "description": "Indicates an error in one of the fixed form fields in the message frame.\n1 - Indicates a form error has occurred.\n0 - Indicates a form error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "STER": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Stuff Error",
+                      "description": "Indicates an error if there is a stuffing violation.\n1 - Indicates a stuff error has occurred.\n0 - Indicates a stuff error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "BERR": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Bit Error",
+                      "description": "Indicates the received bit is not the same as the transmitted bit during bus communication.\n1 - Indicates a bit error has occurred.\n0 - Indicates a bit error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ACKER": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "ACK Error",
+                      "description": "Indicates an acknowledgement error.\n1 - Indicates an acknowledgement error has occurred.\n0 - Indicates an acknowledgement error has not occurred on the bus after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_CRCER": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "CRC Error Status in Fast Data Rate",
+                      "description": "1 - Indicates CRC error occurred in Data  Phase (Fast) data rate\n0 - Indicates CRC error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_FMER": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Form Error Status in Fast Data Rate",
+                      "description": "1 - Indicates form error occurred in Data Phase (Fast) data rate\n0 - Indicates form error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_STER": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Stuff Error Status in Fast Data Rate",
+                      "description": "1 - Indicates stuff error occurred in Data Phase (Fast) data rate\n0 - Indicates stuff error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "F_BERR": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Bit Error Status in Fast Data Rate",
+                      "description": "1 - Indicates bit error occurred in Data Phase (Fast) data rate.\n0 - Indicates bit error has not occurred in Data Phase (Fast) data rate after the last write to this bit.\nIf this bit is set, writing a 1 clears it.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "SR": {
+                  "address_offset": "0x0018",
+                  "size": 32,
+                  "display_name": "Status Register",
+                  "description": "Status Register",
+                  "is_volatile": true,
+                  "access": "read-only",
+                  "reset_value": "0x1",
+                  "fields": {
+                    "CONFIG": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Configuration Mode Indicator",
+                      "description": "Indicates the core is in Configuration mode.\n1 - Indicates the core is in Configuration mode.\n0 - Indicates the core is not in Configuration mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "LBACK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Loop Back Mode",
+                      "description": "Indicates the core is in Loopback mode.\n1 - Indicates the core is in Loopback mode.\n0 - Indicates the core is not in Loopback mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "SLEEP": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Sleep Mode",
+                      "description": "Indicates the core is in Sleep mode.\n1 - Indicates the core is in Sleep mode.\n0 - Indicates the core is not in Sleep mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "NORMAL": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Normal Mode",
+                      "description": "Indicates the core is in Normal Mode.\n1 - Indicates the core is in Normal Mode.\n0 - Indicates the core is not in Normal mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BIDLE": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "Bus Idle",
+                      "description": "Indicates the CAN bus status.\n1 - Indicates no bus communication is taking place.\n0 - Indicates the core is either in Configuration mode or the bus is busy.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BBSY": {
+                      "bit_offset": 5,
+                      "bit_width": 1,
+                      "display_name": "BBSY",
+                      "description": "Indicates the CAN bus status.\n1 - Indicates that the core is either receiving a message or transmitting a message.\n0 - Indicates that the core is either in Configuration mode or the bus is idle.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "ERRWRN": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "ERRWRN",
+                      "description": "Indicates that either the Transmit Error counter or the Receive Error counter has exceeded a value of 96.\n1 - One or more error counters have a value 96.\n0 - Neither of the error counters has a value 96.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "ESTAT": {
+                      "bit_offset": 7,
+                      "bit_width": 2,
+                      "display_name": "Error Status",
+                      "description": "Indicates the error status of the core.\n00 - Indicates Configuration Mode (CONFIG = 1). Error State is undefined.\n01 - Indicates Error Active State.\n11 - Indicates Error Passive State.\n10 - Indicates Bus Off State.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "PEECONFIG": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "PEE Mode Indicator",
+                      "description": "1 - Indicates the core is in PEE Mode (Bus Integration State).\nWhen this bit is set then BBSY and NORMAL status bits in SR register does not mean anything.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BSFR_CONFIG": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Bus-off Recovery Mode Indicator",
+                      "description": "1 - Indicates the core is in Bus-off Recovery Mode (Bus Integration State)\nWhen this bit is set then BBSY and NORMAL status bits in SR register does not mean anything.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "NISO": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Non-ISO Core",
+                      "description": "1 - Core is NISO (generated with C_IS_NISO = 1)\n0 - Core is ISO (generated with C_IS_NISO = 0)\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "SNOOP": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "SNOOP Mode",
+                      "description": "1 - Indicates controller is in Snoop mode provided Normal mode bit is also set in this register.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TDCV": {
+                      "bit_offset": 16,
+                      "bit_width": 7,
+                      "display_name": "Transceiver Delay Compensation value",
+                      "description": "This field gives the position of secondary sample point (defined as sum of TDCOFF and measured delay  \nfor EDL to r0 fall edge from TX to RX) in CAN clocks. \nThis field is for status purpose.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "ISR": {
+                  "address_offset": "0x001C",
+                  "size": 32,
+                  "display_name": "Interrupt Status Register",
+                  "description": "Interrupt Status Register",
+                  "is_volatile": true,
+                  "access": "read-only",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "ARBLST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Arbitration Lost Interrupt",
+                      "description": "1 - indicates that arbitration was lost during message transmission.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TXOK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Transmission Successful Interrupt",
+                      "description": "1 - indicates that a message was transmitted successfully.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "PEE": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Protocol Exception Event Interrupt",
+                      "description": "1 - indicates that the core (CANFD) has detected PEE event.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BSFRD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Bus-Off Recovery Done Interrupt",
+                      "description": "1 - indicates that the core recovered from Bus Off state.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXOK": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "New Message Recieved Interrupt",
+                      "description": "1 - indicates that a message was received successfully and stored into the RX FIFO.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXFOFLW": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Rx  FIFO Overflow interrupt (FIFO mode)",
+                      "description": "1 - Indicates that a message has been lost. This condition occurs when a new message is being received and the Receive FIFO is Full.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR only valid in FIFO Mode.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "ERROR": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "Error Interrupt",
+                      "description": "1 - indicates that an error occurred during message transmission or reception.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "BSOFF": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Bus Off Interrupt",
+                      "description": "1 - indicates that the core entered the Bus Off state.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "SLP": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Sleep Interrupt",
+                      "description": "1 - indicates that the CAN core entered Sleep mode.\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "WKUP": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Wakeup Interrupt",
+                      "description": "1 - indicates that the core entered Normal mode from Sleep Mode\nThis bit can be cleared by writing to the ICR.\nThis bit is also cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXFWMFLL": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "Rx FIFO Watermark Full interrupt (FIFO mode)",
+                      "description": "1 - Indicates that Rx FIFO is full based on watermark programming.\nThe interrupt continues to assert as long as the RX FIFO count is above RX FIFO Full watermark.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TXRRS": {
+                      "bit_offset": 13,
+                      "bit_width": 1,
+                      "display_name": "Tx Buffer Ready Request Served Interrupt",
+                      "description": "1 - Indicates that a Buffer Ready request was cleared.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "TXCRS": {
+                      "bit_offset": 14,
+                      "bit_width": 1,
+                      "display_name": "Tx Cancellation Request Served Interrupt",
+                      "description": "1 - Indicates that a Cancellation request was cleared.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXRBF": {
+                      "bit_offset": 15,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Bull Interrupt (Mailbox mode)",
+                      "description": "1 - Indicates that a receive buffer has received a message and become full.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXBOFLW": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Overflow interrupt (Mailbox mode)",
+                      "description": "1 - Indicates that a message has been lost due to buffer condition. Buffer index is captured in RXBOFLW_BI field.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXMNF": {
+                      "bit_offset": 17,
+                      "bit_width": 1,
+                      "display_name": "Rx Match Not Finished",
+                      "description": "1 - Indicates that Match process did not finish until the start of 6th Bit in EOF field and frame was discarded.\nThis bit can be cleared by writing to the respective bit in ICR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXLRM_BI": {
+                      "bit_offset": 18,
+                      "bit_width": 6,
+                      "display_name": "Rx Buffer Index for Last Received  message (Mailbox mode)",
+                      "description": "Gives Rx Buffer index for last received message.\nThis field has meaning only if RXOK bit is set in this register.\nThis field is cleared at hard/soft reset or when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "RXBOFLW_BI": {
+                      "bit_offset": 24,
+                      "bit_width": 6,
+                      "display_name": "Rx Buffer index for Overflow interrupt (Mailbox mode)",
+                      "description": "Gives Rx Buffer index for which overflow event is generated.\nThis field is automatically cleared to default if RXBOFLW bit is cleared in this register.\nIn case more than one overflow event happens (before host could clear RXBOFLW), RXBOFLW_BI will show overflow index for the last event.\nThis field has meaning only if Overflow interrupt RXBOFLW bit is set.\nThis field is also cleared at hard/soft reset or when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "IER": {
+                  "address_offset": "0x0020",
+                  "size": 32,
+                  "display_name": "Interrupt Enable Register",
+                  "description": "Interrupt Enable Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "EARBLOST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Arbitration Lost Interrupt Enable",
+                      "description": "1 - Enable interrupt generation if ARBLST bit in ISR is set.\n0 - Disable interrupt generation if ARBLST bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ETXOK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Transmission successful interrupt enable",
+                      "description": "1 = Enable interrupt generation if TXOK bit in ISR is set.\n0 = Disable interrupt generation if TXOK bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EPEE": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Protocol Exception Event interrupt enable",
+                      "description": "Protocol Exception Event interrupt enable\n1 - Enable interrupt generation if PEE bit in ISR is set.\n0 - Disable interrupt generation if PEE bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EBSFRD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Bus-off Recovery Done interrupt enable",
+                      "description": "Bus-off Recovery Done interrupt enable\n1 - Enable interrupt generation if BSFRD bit in ISR is set.\n0 - Disable interrupt generation if BSFRD bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXOK": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "New message Received interrupt enable",
+                      "description": "New message Received interrupt enable\n1 - Enable interrupt generation if RXOK bit in ISR is set.\n0 - Disable interrupt generation if RXOK bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERFXOFLW": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Rx FIFO Overflow interrupt Enable (FIFO Mode)",
+                      "description": "1 - Enable interrupt generation if RFXOFLW bit in ISR is set.\n0 - Disable interrupt generation if RFXOFLW bit in ISR is set.\nOnly valid in FIFO Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EERROR": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "Error interrupt enable",
+                      "description": "Error interrupt enable\n1 - Enable interrupt generation if ERROR bit in ISR is set.\n0 - Disable interrupt generation if ERROR bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EBSOFF": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Bus OFF interrupt enable",
+                      "description": "1 - Enable interrupt generation if BSOFF bit in ISR is set.\n0 - Disable interrupt generation if BSOFF bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ESLP": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Sleep interrupt enable",
+                      "description": "1 - Enable interrupt generation if SLP bit in ISR is set.\n0 - Disable interrupt generation if SLP bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "EWKUP": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Wakeup interrupt enable",
+                      "description": "Wakeup interrupt enable\n1 - Enable interrupt generation if WKUP bit in ISR is set.\n0 - Disable interrupt generation if WKUP bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXFWMFLL": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "Rx  FIFO Watermark Full interrupt Enable (FIFO Mode)",
+                      "description": "1 - Enable interrupt generation if RXFWMFLL bit in ISR is set.\n0 - Disable interrupt generation if RXFWMFLL bit in ISR is set.\nOnly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ETXRRS": {
+                      "bit_offset": 13,
+                      "bit_width": 1,
+                      "display_name": "Tx Buffer Ready Request Served Interrupt Enable",
+                      "description": "Tx Buffer Ready Request Served Interrupt Enable\n1 - Enable interrupt generation if TXRRS bit in ISR is set.\n0 - Disable interrupt generation if TXRRS bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ETXCRS": {
+                      "bit_offset": 14,
+                      "bit_width": 1,
+                      "display_name": "Tx Cancellation Request Served Interrupt Enable",
+                      "description": "1 - Enable interrupt generation if TXCRS bit in ISR is set.\n0 - Disable interrupt generation if TXCRS bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXRBF": {
+                      "bit_offset": 15,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Bull Interrupt Enable (Mailbox mode)",
+                      "description": "1 - Enable interrupt generation if RXRBF bit in ISR is set.\n0 - Disable interrupt generation if RXRBF bit in ISR is set.\nOnly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXBOFLW": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Rx Buffer Overflow interrupt Enable (Mailbox mode)",
+                      "description": "1 = Enable interrupt generation if RXBOFLW bit in ISR is set.\n0 = Disable interrupt generation if RXBOFLW bit in ISR is set.\nOnly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "ERXMNF": {
+                      "bit_offset": 17,
+                      "bit_width": 1,
+                      "display_name": "Rx Match Not Finished interrupt Enable",
+                      "description": "1 - Enable interrupt generation if RXMNF bit in ISR is set.\n0 - Disable interrupt generation if RXMNF bit in ISR is set.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "ICR": {
+                  "address_offset": "0x0024",
+                  "size": 32,
+                  "display_name": "Interrupt Clear Register",
+                  "description": "Interrupt Clear Register",
+                  "is_volatile": true,
+                  "access": "write-only",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CARBLOST": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Clear Arbitration lost interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CTXOK": {
+                      "bit_offset": 1,
+                      "bit_width": 1,
+                      "display_name": "Clear Transmission successful interrupt",
+                      "description": "1 - Clear Transmission successful interrupt.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CPEE": {
+                      "bit_offset": 2,
+                      "bit_width": 1,
+                      "display_name": "Clear Protocol Exception Event interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CBSFRD": {
+                      "bit_offset": 3,
+                      "bit_width": 1,
+                      "display_name": "Clear Bus-off Recovery Done interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXOK": {
+                      "bit_offset": 4,
+                      "bit_width": 1,
+                      "display_name": "Clear New message Received interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRFXOFLW": {
+                      "bit_offset": 6,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx FIFO Overflow interrupt (FIFO Mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nonly valid in FIFO Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CERROR": {
+                      "bit_offset": 8,
+                      "bit_width": 1,
+                      "display_name": "Clear Error interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CBSOFF": {
+                      "bit_offset": 9,
+                      "bit_width": 1,
+                      "display_name": "Clear Bus OFF interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CSLP": {
+                      "bit_offset": 10,
+                      "bit_width": 1,
+                      "display_name": "Clear Sleep interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CWKUP": {
+                      "bit_offset": 11,
+                      "bit_width": 1,
+                      "display_name": "Clear Wakeup interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXFWMFLL": {
+                      "bit_offset": 12,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx  FIFO Watermark Full interrupt (FIFO Mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nOnly valid in FIFO Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CTXRRS": {
+                      "bit_offset": 13,
+                      "bit_width": 1,
+                      "display_name": "Clear Tx Buffer Ready Request Served Interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CTXCRS": {
+                      "bit_offset": 14,
+                      "bit_width": 1,
+                      "display_name": "Clear Tx Cancellation Request Served Interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXRBF": {
+                      "bit_offset": 15,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx Buffer Full Interrupt (Mailbox mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nonly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXBOFLW": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx Buffer Overflow interrupt (Mailbox mode)",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\nonly valid in MailBox Mode\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "CRXMNF": {
+                      "bit_offset": 17,
+                      "bit_width": 1,
+                      "display_name": "Clear Rx Match Not Finished interrupt",
+                      "description": "Writing a 1 to this bit clears the respective bit in the ISR. Reads always 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    }
+                  }
+                },
+                "TSR": {
+                  "address_offset": "0x0028",
+                  "size": 32,
+                  "display_name": "Time Stamp Register",
+                  "description": "Time Stamp Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CTS": {
+                      "bit_offset": 0,
+                      "bit_width": 1,
+                      "display_name": "Clear TimeStamp Counter",
+                      "description": "Internal free running counter is cleared to 0 when CTS=1. \nThis bit only needs to be written once with a '1' to clear the counter. \nThe bit will always read as '0'.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "TIMESTAMP_CNT": {
+                      "bit_offset": 16,
+                      "bit_width": 16,
+                      "display_name": "Time Stamp Counter Value",
+                      "description": "This Status field gives running value of the time stamp counter. \nThis  field is cleared when a 0 is written to the CEN bit in the SRR.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "DPBRPR": {
+                  "address_offset": "0x0088",
+                  "size": 32,
+                  "display_name": "Data Phase Baud Rate Prescalar Register",
+                  "description": "Data Phase Baud Rate Prescalar Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "DP_BRP": {
+                      "bit_offset": 0,
+                      "bit_width": 8,
+                      "display_name": "Data Phase Baud Rate Prescaler",
+                      "description": "These bits indicate the prescaler value for Data Bit Timing as specified in the CANFD standard.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "TDCOFF": {
+                      "bit_offset": 8,
+                      "bit_width": 5,
+                      "display_name": "Transceiver Delay Compensation Offset",
+                      "description": "This offset is specified in CAN clock cycles and is added to the measured transnitter delay to place the Secondary Sample Point (SSP) at appropriate position (for ex. set this to half data bit time in terms of CAN clock cycles to place SSP in the middle of the data bit).\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "TDC": {
+                      "bit_offset": 16,
+                      "bit_width": 1,
+                      "display_name": "Transceiver Delay Compensation(TDC) Enable",
+                      "description": "1 - Enables TDC function as specified in the CANFD standard\n0 - TDC is disabled\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "DPBTR": {
+                  "address_offset": "0x008C",
+                  "size": 32,
+                  "display_name": "Data Phase Bit Timing Register",
+                  "description": "Data Phase Bit Timing Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "DP_TS1": {
+                      "bit_offset": 0,
+                      "bit_width": 4,
+                      "display_name": "Data Phase Time Segment1",
+                      "description": "Indicates the Sum of Propagation Segment and Phase Segment 1 as specified in the CANFD standard for Data Bit Timing.\nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DP_TS2": {
+                      "bit_offset": 8,
+                      "bit_width": 3,
+                      "display_name": "Data Phase Time Segment2",
+                      "description": "Indicates the Phase Segment 2 as specified in the CANFD standard for Data Bit Timing. \nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    },
+                    "DP_SJW": {
+                      "bit_offset": 16,
+                      "bit_width": 3,
+                      "display_name": "Data Phase Synchronization Jump Width",
+                      "description": "Indicates the Synchronization Jump Width as specified in the CANFD standard for Data Bit Timing. \nThe actual value is one more than the value written to the register.\nThis bit can be written only when CEN bit in SRR is '0'.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "TRR": {
+                  "address_offset": "0x0090",
+                  "size": 32,
+                  "display_name": "Tx Buffer Ready Request Register",
+                  "description": "Tx Buffer Ready Request Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "RR": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer Ready Request",
+                      "description": "This is control bit corresponds to TBi message in Tx BRAM.\nHost writes 1 to indicate buffer is ready for transmission. Core clears this bit when   Buffer transmission is completed on CAN Bus or   If core is in DAR mode, then after one transmission attempt on CAN bus [either successful or unsuccessful (i.e. arbitration lost or error)] or   If message is cancelled due to cancellation request or   Any combination of Above Host writes are ignored when this bit is 1.\nNote - This register remains in reset when SNOOP mode is enabled.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "IETRS": {
+                  "address_offset": "0x0094",
+                  "size": 32,
+                  "display_name": "Interrupt Enable Tx Buffer Ready Request Served/Cleared Register",
+                  "description": "Interrupt Enable Tx Buffer Ready Request Served/Cleared Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "ERRS": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer_i Ready Req Served/Cleared Interrupt Enable",
+                      "description": "1 - Enables setting TXRRS bit in ISR when RRi bit in TRR register clears.\n0 - TXRRS bit in ISR will not set if  RRi bit in TRR register clears.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "TCR": {
+                  "address_offset": "0x0098",
+                  "size": 32,
+                  "display_name": "Tx Buffer Cancellation Request Register",
+                  "description": "Tx Buffer Cancellation Request Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "CR": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer_0 Cancel Request",
+                      "description": "This is cancellation request bit corresponds to RR0 bit in TRR register.\nHost writes 1 to indicate cancellation request of corresponding buffer ready request (i.e. RR0 bit in TRR register). Core clears this bit when cancellation request is completed. \nHost writes to this bit are ignored if CR0 is 1 or RR0 bit of TRR register is 0.\nIf the buffer is already locked for transmission by Transfer Layer then cancellation is performed at the end of transmission cycle irrespective whether frame transmitted successfully or failed\ni.e. if message is failed due to arbitration loss or any error, then message will be cancelled (no retransmission attempt) and cancellation request will be cleared. Alongwith RR0 bit will get cleared.\nIf message is transmitted successfully, then RR0 bit will clear and cancellation request will be cleared anyway.\nNote : If internal buffer scheduling round is in progress, then cancellation consideration is postponed till it is over.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "IETCS": {
+                  "address_offset": "0x009C",
+                  "size": 32,
+                  "display_name": "Interrupt Enable Tx Buffer Cancellation Request Served/Cleared Register",
+                  "description": "Interrupt Enable Tx Buffer Cancellation Request Served/Cleared Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "ECRS": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Tx Buffer_0 Transmission Served/Cleared Interrupt Enable",
+                      "description": "1 - Enables setting TXCRS bit in ISR when CR0 bit in TCS register clears.\n0 - TXCRS bit in ISR will not set if  CR0 bit in TRR register clears.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "AFR": {
+                  "address_offset": "0x00E0",
+                  "size": 32,
+                  "display_name": "Acceptance Filter(control) Register",
+                  "description": "Acceptance Filter(control) Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "UAF": {
+                      "bit_offset": 0,
+                      "bit_width": 32,
+                      "display_name": "Use Acceptance Filter Mask pair 1",
+                      "description": "Enables the use of acceptance filter mask pair i.\n1 - Indicates Acceptance Filter Mask Register 0 (AFMR0 or M0) and Acceptance Filter ID Register 0 (AFID0 or F0) pair is used for acceptance filtering.\n0 - Indicates AFMR0 and AFID0 pair is not used for acceptance filtering.\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "FSR": {
+                  "address_offset": "0x00E8",
+                  "size": 32,
+                  "display_name": "Rx FIFO Status Register",
+                  "description": "Rx FIFO Status Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0",
+                  "fields": {
+                    "RI": {
+                      "bit_offset": 0,
+                      "bit_width": 5,
+                      "display_name": "Read Index",
+                      "description": "Each time IRI bit is set, core increments read index by +1 (provided FILL level is not 0) and maintained it for Host to access \nnext available message.\nRI = 0x0 -> Next message read starts from location = 0x1100 (to 0x1147)\nRI = 0x1 -> Next message read starts from location = 0x1148 (to 0x118F)...\nRI = 0x1F -> Next message read starts from location = 0x19B8 (to 0x19FF)\nRI is maintained if CEN bit is cleared.\nRI gets reset to 0 if soft or hard reset is asserted.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    },
+                    "IRI": {
+                      "bit_offset": 7,
+                      "bit_width": 1,
+                      "display_name": "Increment Read Index by 1",
+                      "description": "With each Host writes setting this bit as 1, core increments Read index (RI field) by 1 and update fill level (i.e. decrement  by 1).\nIf FILL level is 0, setting this bit has no effect. Note that FILL level may remain unchanged when IRI is written if core is just finishing a successful receive and incrementing internal write index.\nThis bit always read as 0.\n",
+                      "is_volatile": true,
+                      "access": "write-only"
+                    },
+                    "FL": {
+                      "bit_offset": 8,
+                      "bit_width": 6,
+                      "display_name": "Fill Level",
+                      "description": "Number of stored message in Receive FIFO starting from RI index given in this register.\nFor example, if FL = 0x5 and RI = 0x3 then Rx FIFO has 5 messages starting from Read Index 3 (Start address 0x1190).\nFL is maintained if CEN bit is cleared.\nFL gets reset to 0 if soft or hard reset is asserted.\n",
+                      "is_volatile": true,
+                      "access": "read-only"
+                    }
+                  }
+                },
+                "WMR": {
+                  "address_offset": "0x00EC",
+                  "size": 32,
+                  "display_name": "Rx FIFO Watermark Register",
+                  "description": "Rx FIFO Watermark Register",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0xf",
+                  "fields": {
+                    "RXFWM": {
+                      "bit_offset": 0,
+                      "bit_width": 5,
+                      "display_name": "Rx FIFO Full Watermark",
+                      "description": "RXFIFO generates FULL interrupt based on the value programmed in this field.\nUser should set it within (1-31) range. \nThe RX FIFO Full Watermark interrupt in ISR register continues to assert as long as the RX FIFO Fill Level is above RX FIFO Full watermark.\nThis field can be written to only when CEN bit in SRR is '0'\n",
+                      "is_volatile": true,
+                      "access": "read-write"
+                    }
+                  }
+                },
+                "TX_BUFFER_START": {
+                  "address_offset": "0x0100",
+                  "size": 32,
+                  "display_name": "Tx Buffer Start Address",
+                  "description": "Tx Buffer Start Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                },
+                "TX_BUFFER_END": {
+                  "address_offset": "0x09FC",
+                  "size": 32,
+                  "display_name": "Tx Buffer End Address",
+                  "description": "Tx Buffer End Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                },
+                "RX_BUFFER_START": {
+                  "address_offset": "0x1100",
+                  "size": 32,
+                  "display_name": "Rx Buffer Start Address",
+                  "description": "Rx Buffer Start Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                },
+                "RX_BUFFER_END_F": {
+                  "address_offset": "0x19FC",
+                  "size": 32,
+                  "display_name": "Rx Buffer End Address",
+                  "description": "Rx Buffer End Address",
+                  "is_volatile": true,
+                  "access": "read-write",
+                  "reset_value": "0x0"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "checksum": "014dc76e"
+}

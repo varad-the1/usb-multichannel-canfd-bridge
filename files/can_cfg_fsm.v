@@ -24,27 +24,14 @@ module can_cfg_fsm #(
     parameter [11:0] ADDR_AFIR1 = 12'hA0C,
     parameter [11:0] ADDR_WMR   = 12'h0EC,         // RX FIFO watermark; RXFP = [20:16]
 
-    parameter [31:0] VAL_BRPR   = 32'h0000_0003,
-    parameter [31:0] VAL_BTR    = 32'h0000_030E,   // 1 Mbit/s with BRPR=3 on an 80 MHz can_clk (as in tb_dual_vip)
-    parameter [31:0] VAL_FBRPR  = 32'h0000_0000,   // <-- FILL IN (incl. TDC)
-    parameter [31:0] VAL_FBTR   = 32'h0000_0000,   // <-- FILL IN
-    parameter [31:0] VAL_MSR    = 32'h0000_0000,   // 0 = normal
-    parameter [31:0] VAL_IER    = 32'h0000_0000,
-    // Two filters split the traffic between the RX FIFOs (PG223: with RXFP = 0, filter 0 -> RX FIFO-0,
-    // filters above RXFP -> RX FIFO-1). Frames matching neither filter are not stored at all.
-    parameter [31:0] VAL_AFR    = 32'h0000_0003,   // UAF0 and UAF1
-    parameter [31:0] VAL_AFMR0  = 32'hFFFF_FFFF,   // filter 0: exact match, extended ID 0x18FECA00 -> RX FIFO-0
-    parameter [31:0] VAL_AFIR0  = 32'hC7FD_9400,   //   {ID[28:18], SRR=1, IDE=1, ID[17:0], RTR=0}
-    parameter [31:0] VAL_AFMR1  = 32'hFFF8_0000,   // filter 1: exact match, standard ID 0x123 -> RX FIFO-1
-    parameter [31:0] VAL_AFIR1  = 32'h2460_0000,   //   {ID[28:18], SRR=0, IDE=0, 0, RTR=0}
-    parameter [31:0] VAL_WMR    = 32'h0000_0F0F,   // RXFP = 0; both FIFO watermarks left at their reset value 0xF
-    parameter [31:0] SR_READY_MASK = 32'h0000_0008, // NORMAL (bit3) / LBACK (bit1)
     parameter [15:0] POLL_TIMEOUT  = 16'hFFFF       // number of SR reads
 )(
     input  wire        aclk,
     input  wire        aresetn,
 
     input  wire        cfg_start,        // rising edge starts a cycle
+    // register values, 32 bits each: 0 BRPR, 1 BTR, 2 FBRPR, 3 FBTR, 4 MSR, 5 IER, 6 AFR, 7 AFMR0, 8 AFIR0, 9 AFMR1, 10 AFIR1, 11 WMR
+    input  wire [32*12-1:0] cfg_vals,
     input  wire [31:0] base_addr,        // 4 KB aligned
     input  wire        others_idle,      // TX FSM and RX FSM both idle
 
@@ -78,29 +65,44 @@ module can_cfg_fsm #(
     // ---- write table {offset, data} ----
     localparam integer N_WR = 16;
 
-    function [43:0] rom;
-        input [4:0] i;
-        begin
-            case (i)
-                5'd0:    rom = {ADDR_SRR,   32'h0000_0001};  // SRST
-                5'd1:    rom = {ADDR_SRR,   32'h0000_0000};  // release, CEN = 0
-                5'd2:    rom = {ADDR_BRPR,  VAL_BRPR};
-                5'd3:    rom = {ADDR_BTR,   VAL_BTR};
-                5'd4:    rom = {ADDR_FBRPR, VAL_FBRPR};
-                5'd5:    rom = {ADDR_FBTR,  VAL_FBTR};
-                5'd6:    rom = {ADDR_MSR,   VAL_MSR};
-                5'd7:    rom = {ADDR_WMR,   VAL_WMR};        // RXFP (only writable while CEN = 0)
-                5'd8:    rom = {ADDR_AFR,   32'h0000_0000};  // filters off while editing
-                5'd9:    rom = {ADDR_AFMR0, VAL_AFMR0};
-                5'd10:   rom = {ADDR_AFIR0, VAL_AFIR0};
-                5'd11:   rom = {ADDR_AFMR1, VAL_AFMR1};
-                5'd12:   rom = {ADDR_AFIR1, VAL_AFIR1};
-                5'd13:   rom = {ADDR_AFR,   VAL_AFR};        // enable filter(s)
-                5'd14:   rom = {ADDR_IER,   VAL_IER};
-                default: rom = {ADDR_SRR,   32'h0000_0002};  // CEN = 1
-            endcase
-        end
-    endfunction
+    wire [31:0] VAL_BRPR  = cfg_vals[32*0  +: 32];
+    wire [31:0] VAL_BTR   = cfg_vals[32*1  +: 32];
+    wire [31:0] VAL_FBRPR = cfg_vals[32*2  +: 32];
+    wire [31:0] VAL_FBTR  = cfg_vals[32*3  +: 32];
+    wire [31:0] VAL_MSR   = cfg_vals[32*4  +: 32];
+    wire [31:0] VAL_IER   = cfg_vals[32*5  +: 32];
+    wire [31:0] VAL_AFR   = cfg_vals[32*6  +: 32];
+    wire [31:0] VAL_AFMR0 = cfg_vals[32*7  +: 32];
+    wire [31:0] VAL_AFIR0 = cfg_vals[32*8  +: 32];
+    wire [31:0] VAL_AFMR1 = cfg_vals[32*9  +: 32];
+    wire [31:0] VAL_AFIR1 = cfg_vals[32*10 +: 32];
+    wire [31:0] VAL_WMR   = cfg_vals[32*11 +: 32];
+
+    // loopback (MSR bit 1) reports SR bit 1, normal mode reports SR bit 3
+    wire [31:0] ready_mask = VAL_MSR[1] ? 32'h0000_0002 : 32'h0000_0008;
+
+    reg [43:0] rom_cur;
+    reg [4:0]  idx;
+    always @* begin
+        case (idx)
+            5'd0:    rom_cur = {ADDR_SRR,   32'h0000_0001};  // SRST
+            5'd1:    rom_cur = {ADDR_SRR,   32'h0000_0000};  // release, CEN = 0
+            5'd2:    rom_cur = {ADDR_BRPR,  VAL_BRPR};
+            5'd3:    rom_cur = {ADDR_BTR,   VAL_BTR};
+            5'd4:    rom_cur = {ADDR_FBRPR, VAL_FBRPR};
+            5'd5:    rom_cur = {ADDR_FBTR,  VAL_FBTR};
+            5'd6:    rom_cur = {ADDR_MSR,   VAL_MSR};
+            5'd7:    rom_cur = {ADDR_WMR,   VAL_WMR};        // RXFP (only writable while CEN = 0)
+            5'd8:    rom_cur = {ADDR_AFR,   32'h0000_0000};  // filters off while editing
+            5'd9:    rom_cur = {ADDR_AFMR0, VAL_AFMR0};
+            5'd10:   rom_cur = {ADDR_AFIR0, VAL_AFIR0};
+            5'd11:   rom_cur = {ADDR_AFMR1, VAL_AFMR1};
+            5'd12:   rom_cur = {ADDR_AFIR1, VAL_AFIR1};
+            5'd13:   rom_cur = {ADDR_AFR,   VAL_AFR};        // enable filter(s)
+            5'd14:   rom_cur = {ADDR_IER,   VAL_IER};
+            default: rom_cur = {ADDR_SRR,   32'h0000_0002};  // CEN = 1
+        endcase
+    end
 
     // ---- FSM ----
     localparam [3:0] S_IDLE  = 4'd0,
@@ -118,11 +120,9 @@ module can_cfg_fsm #(
     localparam [15:0] GAP_DELAY = 16'd63;
 
     reg [3:0]  state;
-    reg [4:0]  idx;
     reg [15:0] delay_cnt;
     reg [15:0] poll_cnt;
 
-    wire [43:0] rom_cur = rom(idx);
     wire [2:0]  axi_err = (rsp_code == 2'd1) ? ERR_AXI_TO : ERR_AXI_RESP;
 
     assign quiesce = (state != S_IDLE);
@@ -200,7 +200,7 @@ module can_cfg_fsm #(
                 c_valid <= 1'b0;
                 if (rsp_err) begin
                     err_code <= axi_err; err_idx <= idx; state <= S_ERR;
-                end else if ((rsp_rdata & SR_READY_MASK) == SR_READY_MASK) begin
+                end else if ((rsp_rdata & ready_mask) == ready_mask) begin
                     state <= S_DONE;
                 end else if (poll_cnt == POLL_TIMEOUT) begin
                     err_code <= ERR_POLL_TO; err_idx <= idx; state <= S_ERR;

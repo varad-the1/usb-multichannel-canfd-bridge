@@ -58,20 +58,20 @@
     <Option Name="IPUserFilesDir" Val="$PIPUSERFILESDIR"/>
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="186"/>
+    <Option Name="WTXSimLaunchSim" Val="199"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="25"/>
-    <Option Name="WTModelSimExportSim" Val="25"/>
-    <Option Name="WTQuestaExportSim" Val="25"/>
+    <Option Name="WTXSimExportSim" Val="31"/>
+    <Option Name="WTModelSimExportSim" Val="31"/>
+    <Option Name="WTQuestaExportSim" Val="31"/>
     <Option Name="WTIesExportSim" Val="0"/>
     <Option Name="WTVcsExportSim" Val="0"/>
-    <Option Name="WTRivieraExportSim" Val="25"/>
-    <Option Name="WTActivehdlExportSim" Val="24"/>
+    <Option Name="WTRivieraExportSim" Val="31"/>
+    <Option Name="WTActivehdlExportSim" Val="30"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -111,6 +111,13 @@
         </FileInfo>
       </File>
       <File Path="$PPRDIR/files/can_cfg_fsm.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/files/can_cfg_regs.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -200,17 +207,29 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_axi_smc_0\axi_block_axi_smc_0.xci">
-          <Proxy FileSetName="axi_block_axi_smc_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_axi_vip_0_0\axi_block_axi_vip_0_0.xci">
-          <Proxy FileSetName="axi_block_axi_vip_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_can_fd_usb_top_0_2\axi_block_can_fd_usb_top_0_2.xci">
-          <Proxy FileSetName="axi_block_can_fd_usb_top_0_2"/>
-        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_0_0\axi_block_canfd_0_0.xci">
           <Proxy FileSetName="axi_block_canfd_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_0_1\axi_block_canfd_0_1.xci">
+          <Proxy FileSetName="axi_block_canfd_0_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_1_0\axi_block_canfd_1_0.xci">
+          <Proxy FileSetName="axi_block_canfd_1_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_2_0\axi_block_canfd_2_0.xci">
+          <Proxy FileSetName="axi_block_canfd_2_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_3_0\axi_block_canfd_3_0.xci">
+          <Proxy FileSetName="axi_block_canfd_3_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_3_1\axi_block_canfd_3_1.xci">
+          <Proxy FileSetName="axi_block_canfd_3_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_3_2\axi_block_canfd_3_2.xci">
+          <Proxy FileSetName="axi_block_canfd_3_2"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="axi_block.bd" FileRelPathName="ip\axi_block_canfd_3_3\axi_block_canfd_3_3.xci">
+          <Proxy FileSetName="axi_block_canfd_3_3"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/axi_block/hdl/axi_block_wrapper.v">
@@ -260,7 +279,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sim_1/new/tb_bridge_top.sv">
+      <File Path="$PPRDIR/files/tb_can_fd_usb.v">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -268,7 +287,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/files/tb_can_fd_usb.v">
+      <File Path="$PSRCDIR/sim_1/new/tb_bridge_top.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -277,7 +296,8 @@
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="tb_can_fd_usb"/>
+        <Option Name="TopModule" Val="tb_bridge_top"/>
+        <Option Name="TopLib" Val="xil_defaultlib"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SelectedSimModel" Val="rtl"/>
@@ -300,6 +320,8 @@
         <Option Name="LogicalNoCTop" Val=""/>
         <Option Name="LogicalNoCTopLib" Val=""/>
         <Option Name="Dmv" Val=""/>
+        <Option Name="xsim.elaborate.debug_level" Val="off"/>
+        <Option Name="xsim.simulate.runtime" Val="all"/>
       </Config>
     </FileSet>
     <FileSet Name="utils_1" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
@@ -308,27 +330,51 @@
         <Option Name="TopAutoSet" Val="TRUE"/>
       </Config>
     </FileSet>
-    <FileSet Name="axi_block_axi_smc_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_axi_smc_0" RelGenDir="$PGENDIR/axi_block_axi_smc_0">
-      <Config>
-        <Option Name="TopModule" Val="axi_block_axi_smc_0"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
     <FileSet Name="axi_block_canfd_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_0_0" RelGenDir="$PGENDIR/axi_block_canfd_0_0">
       <Config>
         <Option Name="TopModule" Val="axi_block_canfd_0_0"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="axi_block_axi_vip_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_axi_vip_0_0" RelGenDir="$PGENDIR/axi_block_axi_vip_0_0">
+    <FileSet Name="axi_block_canfd_0_1" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_0_1" RelGenDir="$PGENDIR/axi_block_canfd_0_1">
       <Config>
-        <Option Name="TopModule" Val="axi_block_axi_vip_0_0"/>
+        <Option Name="TopModule" Val="axi_block_canfd_0_1"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="axi_block_can_fd_usb_top_0_2" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_can_fd_usb_top_0_2" RelGenDir="$PGENDIR/axi_block_can_fd_usb_top_0_2">
+    <FileSet Name="axi_block_canfd_1_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_1_0" RelGenDir="$PGENDIR/axi_block_canfd_1_0">
       <Config>
-        <Option Name="TopModule" Val="axi_block_can_fd_usb_top_0_2"/>
+        <Option Name="TopModule" Val="axi_block_canfd_1_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="axi_block_canfd_2_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_2_0" RelGenDir="$PGENDIR/axi_block_canfd_2_0">
+      <Config>
+        <Option Name="TopModule" Val="axi_block_canfd_2_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="axi_block_canfd_3_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_3_0" RelGenDir="$PGENDIR/axi_block_canfd_3_0">
+      <Config>
+        <Option Name="TopModule" Val="axi_block_canfd_3_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="axi_block_canfd_3_1" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_3_1" RelGenDir="$PGENDIR/axi_block_canfd_3_1">
+      <Config>
+        <Option Name="TopModule" Val="axi_block_canfd_3_1"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="axi_block_canfd_3_2" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_3_2" RelGenDir="$PGENDIR/axi_block_canfd_3_2">
+      <Config>
+        <Option Name="TopModule" Val="axi_block_canfd_3_2"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="axi_block_canfd_3_3" Type="BlockSrcs" RelSrcDir="$PSRCDIR/axi_block_canfd_3_3" RelGenDir="$PGENDIR/axi_block_canfd_3_3">
+      <Config>
+        <Option Name="TopModule" Val="axi_block_canfd_3_3"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -361,16 +407,6 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="axi_block_axi_smc_0_synth_1" Type="Ft3:Synth" SrcSet="axi_block_axi_smc_0" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_axi_smc_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_axi_smc_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_axi_smc_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_axi_smc_0_synth_1" ParallelReportGen="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2025"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
     <Run Id="axi_block_canfd_0_0_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_0_0" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_0_0_synth_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
@@ -381,11 +417,9 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="axi_block_axi_vip_0_0_synth_1" Type="Ft3:Synth" SrcSet="axi_block_axi_vip_0_0" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_axi_vip_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_axi_vip_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_axi_vip_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_axi_vip_0_0_synth_1" ParallelReportGen="true">
+    <Run Id="axi_block_canfd_0_1_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_0_1" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_0_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_0_1_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_0_1_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_0_1_synth_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -393,11 +427,59 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="axi_block_can_fd_usb_top_0_2_synth_1" Type="Ft3:Synth" SrcSet="axi_block_can_fd_usb_top_0_2" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_can_fd_usb_top_0_2" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_can_fd_usb_top_0_2_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_can_fd_usb_top_0_2_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_can_fd_usb_top_0_2_synth_1" ParallelReportGen="true">
+    <Run Id="axi_block_canfd_1_0_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_1_0" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_1_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_1_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_1_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_1_0_synth_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_2_0_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_2_0" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_2_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_2_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_2_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_2_0_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_0_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_3_0" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_3_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_0_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_1_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_3_1" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_3_1_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_1_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_1_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_2_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_3_2" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_2" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_3_2_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_2_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_2_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_3_synth_1" Type="Ft3:Synth" SrcSet="axi_block_canfd_3_3" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_3" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/axi_block_canfd_3_3_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_3_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_3_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2025"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -406,23 +488,6 @@
       <RQSFiles/>
     </Run>
     <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/impl_1" ParallelReportGen="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2025"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="axi_block_axi_smc_0_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_axi_smc_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_axi_smc_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_axi_smc_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_axi_smc_0_impl_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
         <Step Id="init_design"/>
@@ -456,11 +521,9 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="axi_block_axi_vip_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_axi_vip_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_axi_vip_0_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_axi_vip_0_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_axi_vip_0_0_impl_1" ParallelReportGen="true">
+    <Run Id="axi_block_canfd_0_1_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_0_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_canfd_0_1_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_0_1_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_0_1_impl_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -475,11 +538,94 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="axi_block_can_fd_usb_top_0_2_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_can_fd_usb_top_0_2" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_can_fd_usb_top_0_2_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_can_fd_usb_top_0_2_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_can_fd_usb_top_0_2_impl_1" ParallelReportGen="true">
+    <Run Id="axi_block_canfd_1_0_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_1_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_canfd_1_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_1_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_1_0_impl_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_2_0_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_2_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_canfd_2_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_2_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_2_0_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_0_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_canfd_3_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_0_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_1_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_canfd_3_1_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_1_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_1_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_2_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_2" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_canfd_3_2_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_2_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_2_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2025"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="axi_block_canfd_3_3_impl_1" Type="Ft2:EntireDesign" Part="xc7s6ftgb196-1" ConstrsSet="axi_block_canfd_3_3" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="axi_block_canfd_3_3_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_3_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/axi_block_canfd_3_3_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2025"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

@@ -11,13 +11,13 @@ module can_tx_fsm #(
     parameter [11:0] ADDR_TRR   = 12'h090,
     parameter [11:0] ADDR_TXMSG = 12'h100,      // TX buffer 0 ID register
     parameter integer TB_STRIDE = 72,           // 0x48 bytes per TX buffer
-    parameter integer TX_BUF    = 0,            // which TX buffer to use
     parameter [15:0] TX_POLL_TIMEOUT = 16'hFFFF
 )(
     input  wire         aclk,
     input  wire         aresetn,
     input  wire         link_up,                // cfg_done && !quiesce
     input  wire [31:0]  base_addr,
+    input  wire [4:0]   tx_buf,                 // which TX buffer (0..31) to use, from the configuration frame
 
     input  wire         tx_valid,
     output wire         tx_ready,
@@ -46,14 +46,14 @@ module can_tx_fsm #(
 
     reg [3:0]   state;
     reg [31:0]  base_l, id_l, dlc_l;
-    reg [4:0]   nw_l, k;
+    reg [4:0]   nw_l, k, buf_l;
     reg [511:0] data_l;
     reg [15:0]  poll_cnt;
 
     assign tx_ready = (state == T_IDLE) && link_up;
     assign tx_idle  = (state == T_IDLE);
 
-    wire [31:0] txb     = base_l + {20'd0, ADDR_TXMSG} + (TX_BUF * TB_STRIDE);
+    wire [31:0] txb     = base_l + {20'd0, ADDR_TXMSG} + (buf_l * TB_STRIDE);
     wire [4:0]  widx    = k - 5'd2;
     wire [31:0] dw      = data_l[{widx, 5'b00000} +: 32];
     wire [2:0]  axi_err = (rsp_code == 2'd1) ? 3'd1 : 3'd2;
@@ -66,7 +66,7 @@ module can_tx_fsm #(
     always @(posedge aclk) begin
         if (!aresetn) begin
             state <= T_IDLE; k <= 5'd0; nw_l <= 5'd0; poll_cnt <= 16'd0;
-            base_l <= 32'd0; id_l <= 32'd0; dlc_l <= 32'd0; data_l <= 512'd0;
+            base_l <= 32'd0; buf_l <= 5'd0; id_l <= 32'd0; dlc_l <= 32'd0; data_l <= 512'd0;
             tx_done <= 1'b0; tx_error <= 1'b0; tx_err_code <= 3'd0;
             c_valid <= 1'b0; c_we <= 1'b0; c_addr <= 32'd0; c_wdata <= 32'd0;
         end else begin
@@ -75,7 +75,7 @@ module can_tx_fsm #(
 
             case (state)
             T_IDLE: if (tx_valid && link_up) begin
-                base_l <= base_addr; id_l <= tx_id; dlc_l <= tx_dlc;
+                base_l <= base_addr; buf_l <= tx_buf; id_l <= tx_id; dlc_l <= tx_dlc;
                 nw_l   <= tx_nwords; data_l <= tx_data;
                 state  <= T_CHK_I;
             end
@@ -88,7 +88,7 @@ module can_tx_fsm #(
             T_CHK_W: if (rsp_valid) begin
                 c_valid <= 1'b0;
                 if (rsp_err) begin tx_err_code <= axi_err; state <= T_ERR; end
-                else if (rsp_rdata[TX_BUF]) begin tx_err_code <= 3'd3; state <= T_ERR; end
+                else if (rsp_rdata[buf_l]) begin tx_err_code <= 3'd3; state <= T_ERR; end
                 else begin k <= 5'd0; state <= T_WR_I; end
             end
 
@@ -110,7 +110,7 @@ module can_tx_fsm #(
             // request transmission
             T_REQ_I: begin
                 c_we <= 1'b1; c_addr <= base_l + {20'd0, ADDR_TRR};
-                c_wdata <= (32'd1 << TX_BUF); c_valid <= 1'b1; state <= T_REQ_W;
+                c_wdata <= (32'd1 << buf_l); c_valid <= 1'b1; state <= T_REQ_W;
             end
             T_REQ_W: if (rsp_valid) begin
                 c_valid <= 1'b0;
@@ -126,7 +126,7 @@ module can_tx_fsm #(
             T_POL_W: if (rsp_valid) begin
                 c_valid <= 1'b0;
                 if (rsp_err) begin tx_err_code <= axi_err; state <= T_ERR; end
-                else if (!rsp_rdata[TX_BUF]) state <= T_DONE;
+                else if (!rsp_rdata[buf_l]) state <= T_DONE;
                 else if (poll_cnt == TX_POLL_TIMEOUT) begin tx_err_code <= 3'd4; state <= T_ERR; end
                 else begin poll_cnt <= poll_cnt + 1'b1; state <= T_POL_I; end
             end
